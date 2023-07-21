@@ -21,6 +21,7 @@ import {
 import { ColorModeSwitcher } from "./ColorModeSwitcher";
 import { Logo } from "./Logo";
 import { useEffect, useState } from "react";
+import { ProviderType } from "@lit-protocol/constants";
 
 export const App = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -36,6 +37,30 @@ export const App = () => {
       isClosable: true,
     });
   };
+
+  const signIn = async () => {
+
+    const client = new LitAuthClient({
+        litRelayConfig: {
+          relayApiKey: "ec8d2250312234b05e2746aa7e2ebd9d",
+        },
+      });
+  
+      client.initProvider(ProviderType.Google, {
+        redirectUri: 'http://localhost:3000/ok',
+      });
+  
+      const litNodeClient = new LitNodeClient({
+        litNetwork: "serrano",
+        debug: false,
+      });
+      await litNodeClient.connect();
+  
+      const litProvider: any = client.getProvider(ProviderType.Google);
+  
+      if (litProvider != null) await litProvider.signIn();
+
+  }
 
   const errorToast = (Title: string, Desc: string) => {
     toast({
@@ -64,15 +89,17 @@ export const App = () => {
           <VStack>
             <Heading> Send Funds </Heading>
             <VStack>
-              <FormControl>
+              {/* <FormControl>
                 <FormLabel>Email</FormLabel>
                 <Input type="email" placeholder="Email" />
               </FormControl>
               <FormControl>
                 <FormLabel>Amount</FormLabel>
                 <Input type="number" placeholder="Amount" />
-              </FormControl>
-              <Button>Send</Button>
+              </FormControl> */}
+              <Button
+                onClick={signIn}
+              >Sign In</Button>
             </VStack>
           </VStack>
         </Box>

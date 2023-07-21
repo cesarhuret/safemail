@@ -13,3 +13,5 @@ const theme = extendTheme({
         body: `"Inter, sans-serif"`,
     }
 });
+
+export default theme;

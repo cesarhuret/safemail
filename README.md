@@ -15,3 +15,13 @@ By leveraging Safe's Create2 contracts, a safe can be derived from a specific em
 
 #### Lit Protocol
 Lit Protocol enables us to use Lit Actions - computing JS code stored on IPFS in a decentralized way. This allows to securely verify if an OAUTH token is valid and corresponds to the right email address (OAUTH tokens are valid for 1 hour). From that verification, we can get the safe address that wants to be used, and send execute any transaction from that safe to a recipient email address.
+
+#### Creating A Lit Action PKP using Mint/Grant/Burn
+
+1. Upload the code to IPFS
+
+2. Decode the CID: http://lenschulwitz.com/base58 
+![Alt text](./assets/image-2.png)
+
+3. Mint a PKP: https://lit-protocol.calderaexplorer.xyz/token/0x8F75a53F65e31DD0D2e40d0827becAaE2299D111/write-contract
+![Alt text](./assets/image-1.png)

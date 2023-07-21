@@ -1,0 +1,10 @@
+{
+    "signTxData": {
+        "cid": "QmQREnjPV2uHUrbByhdGgRwYUaQaufs1fyYz9LhTUUtMSi",
+        "pkp": "0x04b32fc6254552da259d4d3c7d25386533f4b644cc85cf9b54faa7cc5429bdf3f4d06c7f11fabd53f16273cd36744bbbf0f2b0a3139c168d08655783a8cf899507",
+        "address": "0x870Bd5CF5b736A1b27bA79f017e1f2b5bA56CE44"
+    },
+    "lit": {
+        "apiKey": "ec8d2250312234b05e2746aa7e2ebd9d"
+    }
+}

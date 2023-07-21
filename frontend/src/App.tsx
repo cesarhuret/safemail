@@ -1,4 +1,4 @@
-import * as React from "react"
+import * as React from "react";
 import {
   ChakraProvider,
   Box,
@@ -8,31 +8,75 @@ import {
   Code,
   Grid,
   theme,
-} from "@chakra-ui/react"
-import { ColorModeSwitcher } from "./ColorModeSwitcher"
-import { Logo } from "./Logo"
+  Heading,
+  FormControl,
+  FormLabel,
+  Input,
+  Button,
+  useToast,
+  Spinner,
+  Container,
+  Flex
+} from "@chakra-ui/react";
+import { ColorModeSwitcher } from "./ColorModeSwitcher";
+import { Logo } from "./Logo";
+import { useEffect, useState } from "react";
 
-export const App = () => (
-  <ChakraProvider theme={theme}>
-    <Box textAlign="center" fontSize="xl">
-      <Grid minH="100vh" p={3}>
-        <ColorModeSwitcher justifySelf="flex-end" />
-        <VStack spacing={8}>
-          <Logo h="40vmin" pointerEvents="none" />
-          <Text>
-            Edit <Code fontSize="xl">src/App.tsx</Code> and save to reload.
-          </Text>
-          <Link
-            color="teal.500"
-            href="https://chakra-ui.com"
-            fontSize="2xl"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Learn Chakra
-          </Link>
-        </VStack>
-      </Grid>
-    </Box>
-  </ChakraProvider>
-)
+export const App = () => {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isConnected, setIsConnected] = useState<boolean>(false);
+  const toast = useToast();
+
+  const successToast = (Title: string, Desc: string) => {
+    toast({
+      title: Title,
+      description: Desc,
+      status: "success",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
+
+  const errorToast = (Title: string, Desc: string) => {
+    toast({
+      title: Title,
+      description: Desc,
+      status: "error",
+      duration: 9000,
+      isClosable: true,
+    });
+  };
+
+  return (
+    <>
+      {isLoading ? (
+        <Container
+          as={Flex}
+          h="100%"
+          w="100%"
+          justifyContent="center"
+          alignItems="center"
+        >
+          <Spinner size="xl"/>
+        </Container>
+      ) : (
+        <Box w="100%" h="100%">
+          <VStack>
+            <Heading> Send Funds </Heading>
+            <VStack>
+              <FormControl>
+                <FormLabel>Email</FormLabel>
+                <Input type="email" placeholder="Email" />
+              </FormControl>
+              <FormControl>
+                <FormLabel>Amount</FormLabel>
+                <Input type="number" placeholder="Amount" />
+              </FormControl>
+              <Button>Send</Button>
+            </VStack>
+          </VStack>
+        </Box>
+      )}
+    </>
+  );
+};

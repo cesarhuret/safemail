@@ -5,7 +5,7 @@ import { App } from "./App"
 import reportWebVitals from "./reportWebVitals"
 import * as serviceWorker from "./serviceWorker"
 import { RouterProvider } from "react-router-dom"
-import router from "./router"
+import router from "./Router"
 import theme from "./theme"
 
 const container = document.getElementById("root")

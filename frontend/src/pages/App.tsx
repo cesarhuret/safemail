@@ -18,8 +18,8 @@ import {
   Container,
   Flex
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "./ColorModeSwitcher";
-import { Logo } from "./Logo";
+import { ColorModeSwitcher } from "../ColorModeSwitcher";
+import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
 import { ProviderType } from "@lit-protocol/constants";
 

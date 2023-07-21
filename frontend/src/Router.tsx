@@ -1,5 +1,5 @@
-import { createBrowserRouter } from "react-router-dom";
-import { App } from "./App";
+import { createBrowserRouter, Outlet } from "react-router-dom";
+import { App } from "./pages";
 import { Layout } from "./components";
 import { isSignInRedirect, LitAuthClient } from "@lit-protocol/lit-auth-client";
 import { ProviderType } from "@lit-protocol/constants";

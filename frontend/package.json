@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@airstack/airstack-react": "^0.4.5",
     "@chakra-ui/react": "^2.8.0",
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
@@ -11,6 +12,7 @@
     "@lit-protocol/lit-auth-client": "^2.2.45",
     "@lit-protocol/pkp-ethers": "^2.2.45",
     "@lit-protocol/types": "^2.2.45",
+    "@quicknode/sdk": "^1.1.0",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^14.4.3",

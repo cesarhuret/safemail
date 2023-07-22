@@ -18,6 +18,14 @@ import {
   Container,
   Flex,
   HStack,
+  InputGroup,
+  InputLeftAddon,
+  Select,
+  NumberInput,
+  NumberInputField,
+  NumberInputStepper,
+  NumberIncrementStepper,
+  NumberDecrementStepper,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { Logo } from "../Logo";
@@ -134,7 +142,37 @@ export const App = () => {
                   </FormControl>
                   <FormControl w="250px">
                     <FormLabel>Amount</FormLabel>
-                    <Input type="number" placeholder="Amount" />
+                    <InputGroup variant="unstyled">
+                      <InputLeftAddon bg="#050505" p={0}>
+                        <Select
+                          placeholder=""
+                          border=""
+                          colorScheme="black"
+                          w="100px"
+                          bg="#050505"
+                        >
+                          <option value="ether">ETH</option>
+                          <option value="lit">LIT</option>
+                        </Select>
+                      </InputLeftAddon>
+                      <NumberInput
+                        w="100%"
+                        min={0}
+                        variant="outline"
+                        onChange={(e) => {
+                          setTransferData({
+                            ...transferData,
+                            amount: parseInt(e),
+                          });
+                        }}
+                      >
+                        <NumberInputField />
+                        <NumberInputStepper>
+                          <NumberIncrementStepper />
+                          <NumberDecrementStepper />
+                        </NumberInputStepper>
+                      </NumberInput>
+                    </InputGroup>
                   </FormControl>
                   <Button>Send</Button>
                   {/* <Button

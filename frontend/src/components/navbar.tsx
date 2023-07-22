@@ -36,6 +36,7 @@ export function NavBar() {
     const provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw");
 
     const getBalance = async () => {
+        if (!walletAddress) return;
         await provider.getBalance(walletAddress).then((balance) => {
             setBalance(parseFloat(ethers.utils.formatEther(balance)).toFixed(2));
         });

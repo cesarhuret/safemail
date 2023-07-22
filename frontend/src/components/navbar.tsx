@@ -33,10 +33,10 @@ import { GoogleIcon } from "../icons";
 export function NavBar() {
   const navigate = useNavigate();
   const mockData = {
-    // email: "leonardo.ryuta05@gmail.com",
-    // wallet: "0x2346ac3Bc15656D4dE1da99384B5498A75f128a2",
-    email: "",
-    wallet: "",
+    email: "leonardo.ryuta05@gmail.com",
+    wallet: "0x2346ac3Bc15656D4dE1da99384B5498A75f128a2",
+    // email: "",
+    // wallet: "",
   };
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -90,21 +90,17 @@ export function NavBar() {
         <ModalBody mx={0} my={20}>
           <VStack gap={5}>
             <Button
-                variant="outline"
-                w="200px"
-                alignSelf="center" 
-                onClick={signIn}
-                leftIcon={<GoogleIcon size={20}/>}
+              variant="outline"
+              w="200px"
+              alignSelf="center"
+              onClick={signIn}
+              leftIcon={<GoogleIcon size={20} />}
             >
               <Text>Sign in with google</Text>
             </Button>
             <Text> or </Text>
-            <Button
-                variant="outline"
-                w="200px"
-                alignSelf="center"
-            >
-              <Image src="/metamask.svg" h="5" pr={2}/>
+            <Button variant="outline" w="200px" alignSelf="center">
+              <Image src="/metamask.svg" h="5" pr={2} />
               <Text>Sign in with Metamask</Text>
             </Button>
           </VStack>
@@ -121,13 +117,20 @@ export function NavBar() {
       </HStack>
       <HStack>
         <Text p="7px" borderRadius={6} borderWidth={1}>
-            {balance} ETH
+          {balance} ETH
         </Text>
         <Box>
           {email !== "" ? (
             <Menu>
               <MenuButton as={Button}>
-                <Text>{email.replace("@gmail.com", "")}</Text>
+                <Flex gap={2} alignItems="center">
+                  <Image
+                    src={`https://noun-api.com/beta/pfp?name=${email}`}
+                    borderRadius="10px"
+                    w={5}
+                  />
+                  <Text>{email.replace("@gmail.com", "")}</Text>
+                </Flex>
               </MenuButton>
               <MenuList>
                 <MenuItem>{email}</MenuItem>

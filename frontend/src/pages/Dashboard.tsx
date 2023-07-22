@@ -21,6 +21,8 @@ import {
 import { ethers, providers } from "ethers";
 import { init, useQuery } from "@airstack/airstack-react";
 import config from "../config.json";
+import { shortenHash } from "../hooks";
+import { MailIcon, ClipboardCheckIcon, ClipboardAddIcon, ExtrenalLinkIcon } from "../icons";
 
 init(config.airStack.apiKey);
 
@@ -34,7 +36,9 @@ export const Dashboard = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [nftList, setNftList] = useState<any[]>([]);
   const [tokenList, setTokenList] = useState<any[]>([]);
-  const provider = new providers.JsonRpcProvider(
+  const [isCopied, setIsCopied] = useState<boolean>(false);
+  const [internalTransactions, setInternalTransactions]: any = useState(null);
+  const provider = new ethers.providers.JsonRpcProvider(
     "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
   );
 
@@ -114,9 +118,20 @@ export const Dashboard = () => {
     address: walletAddress,
   };
 
-  const { data, loading, error } = useQuery(query, variables, {cache: false});
+  const { data, loading, error } = useQuery(query, variables, { cache: false });
+
+  const getInternalTransactions = async () => {
+    if (!walletAddress) return;
+    const response = await fetch(
+      `https://api-goerli.etherscan.io/api?module=account&action=txlistinternal&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${config.etherScan.apiKey}`
+    );
+    const data = await response.json();
+    console.log(data.result);
+    setInternalTransactions(data.result);
+  };
 
   const getBalance = async () => {
+    if (!walletAddress) return;
     await provider.getBalance(walletAddress).then((balance) => {
       setBalance(parseFloat(ethers.utils.formatEther(balance)).toFixed(2));
     });
@@ -126,7 +141,8 @@ export const Dashboard = () => {
     if (!loading && data) {
       setTokenList(data.erc20.data);
       setNftList(data.erc721.data);
-      console.log(data)
+      console.log(data);
+      getInternalTransactions();
     }
   }, [loading]);
 
@@ -138,6 +154,11 @@ export const Dashboard = () => {
   useEffect(() => {
     getBalance();
   }, [walletAddress]);
+
+  const copyAddress = () => {
+    navigator.clipboard.writeText(walletAddress);
+    setIsCopied(true);
+  };
 
   return (
     <Box
@@ -156,64 +177,136 @@ export const Dashboard = () => {
         </Box>
       ) : (
         <>
-          <Container p={4} border="2px solid white">
-            <VStack>
-              <Flex>
+          <Avatar
+            size="2xl"
+            name={email}
+            src={`https://noun-api.com/beta/pfp?name=${email}`}
+          />
+          <Container
+            bg="#050505"
+            borderRadius={15}
+            p={4}
+          >
+            <VStack gap={4}>
+              <Flex alignItems="center" gap={2}>
+                <MailIcon size={20} />
                 <Text as="b">{email}</Text>
               </Flex>
               <VStack>
-                <VStack>
-                  <Text>Total Balance:</Text>
+                <VStack mb={6} gap={0}>
+                  <Text color="gray.600">Total Balance:</Text>
                   <Text>{balance} ETH</Text>
                 </VStack>
+                <Button onClick={copyAddress} gap={2}>
+                  {shortenHash(walletAddress)}
+                  {isCopied ? (
+                    <ClipboardCheckIcon size={20} />
+                  ) : (
+                    <ClipboardAddIcon size={20} />
+                  )}
+                </Button>
               </VStack>
             </VStack>
           </Container>
-          <Container>
+          <Container bg="#050505" p={4} borderRadius={15}>
             <Tabs>
               <TabList>
-                <Tab>Tokens</Tab>
-                <Tab>NFTs</Tab>
-                <Tab>Transactions</Tab>
+                <Tab w="50%">Tokens</Tab>
+                <Tab w="50%">NFTs</Tab>
+                <Tab w="50%">Transactions</Tab>
               </TabList>
               <TabPanels>
-                <TabPanel></TabPanel>
+                <TabPanel>
+                  <Skeleton isLoaded={!loading}>
+                    {tokenList ? (
+                      <VStack>
+                        {tokenList.map((token) => (
+                          <Flex
+                            key={token.tokenId}
+                            p={4}
+                            border="2px solid white"
+                            borderRadius="md"
+                            w="100%"
+                          >
+                            <Text>{token.token.symbol}</Text>
+                            <Text>{token.formattedAmount.toFixed(2)}</Text>
+                          </Flex>
+                        ))}
+                      </VStack>
+                    ) : (
+                      <Text>No tokens found</Text>
+                    )}
+                  </Skeleton>
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                </TabPanel>
+                <TabPanel>
+                  <Skeleton isLoaded={!loading}>
+                    {nftList ? (
+                      <Grid templateColumns="repeate(3, 1fr)" gap={2}>
+                        {nftList.map((nft: any) => {
+                          return (
+                            <Container
+                              key={nft.tokenId}
+                              p={4}
+                              borderRadius="md"
+                              bg="black"
+                            >
+                              <Image
+                                src={nft.tokenNfts.contentValue.image.original}
+                              />
+                              <Text>{nft.tokenNfts.metaData.name}</Text>
+                            </Container>
+                          );
+                        })}
+                      </Grid>
+                    ) : (
+                      <Text>No NFTs Found</Text>
+                    )}
+                  </Skeleton>
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                </TabPanel>
                 <TabPanel>
                   <Skeleton isLoaded={!loading}>
                     {
-                      tokenList ?
-                      <VStack>
-                        {
-                          tokenList.map((token) => (
-                            <Flex
-                              key={token.tokenId}
-                              p={4}
-                              border="2px solid white"
-                              borderRadius="md"
-                              w="100%"
-                            >
-                              <Text>{token.token.symbol}</Text>
-                              <Text>{token.formattedAmount.toFixed(2)}</Text>
-                            </Flex>
-                          ))
-                        }
-                      </VStack>
-                      :
-                      <Text>No tokens found</Text>
+                      internalTransactions ? (
+                        <VStack>
+                          {
+                            internalTransactions.map(
+                              (internalTransaction:any, index:number) => {
+                                return (
+                                  <Flex
+                                    key={index}
+                                    p={2}
+                                    borderRadius="md"
+                                    bg="black"
+                                    justifyContent="space-between"
+                                    alignItems="center"
+                                    w="100%"
+                                    gap={4}
+                                  >
+                                    <Text>From: {shortenHash(internalTransaction.from)}</Text>
+                                    <Text>To: {shortenHash(internalTransaction.to)}</Text>
+                                    <Text>Value: {parseFloat(ethers.utils.formatEther(internalTransaction.value)).toFixed(2)}</Text>
+                                    <Button>
+                                      <Link href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`} isExternal>
+                                        <ExtrenalLinkIcon size={15} />
+                                      </Link>
+                                    </Button>
+                                  </Flex>
+                                )
+                              }
+                            )
+                          }
+                        </VStack>
+                      ) : (
+                        <Text>No transactions found</Text>
+                      )
                     }
                   </Skeleton>
-                </TabPanel>
-                <TabPanel>
-                  <Flex direction="column" gap={4}>
-                    <Box>
-                      <Text as="b">Wallet Address:</Text>
-                      <Text>{walletAddress}</Text>
-                    </Box>
-                    <Box>
-                      <Text as="b">Wallet Balance:</Text>
-                      <Text>{balance} ETH</Text>
-                    </Box>
-                  </Flex>
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                  <Skeleton isLoaded={!loading} h="20px" my={2} />
                 </TabPanel>
               </TabPanels>
             </Tabs>

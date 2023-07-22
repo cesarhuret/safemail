@@ -27,5 +27,8 @@
     "airStack": {
         "apiKey": "cf04259b075547098d87f31282243e58"
     },
-    "gelato": "ehGvXRr8invWVeTAjkJkDBLT8bpB9QY2XqPqjXn4tes_"
+    "gelato": "ehGvXRr8invWVeTAjkJkDBLT8bpB9QY2XqPqjXn4tes_",
+    "etherScan": {
+        "apiKey": "DF7FDQYKAXK1JM2WP6QMHRMNDFJRBMWHQC"
+    }
 }

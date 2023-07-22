@@ -31,7 +31,7 @@ import { shortenHash } from "../hooks";
 import { ProviderType } from "@lit-protocol/constants";
 import { GoogleIcon, ArrowRightIcon } from "../icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
-import chainsList from "../utils/chain.json";
+import chainsList from "../utils/chains.json";
 
 export function NavBar() {
   const navigate = useNavigate();

@@ -78,11 +78,15 @@ export const execWithLit = async (
 
   console.log(encodedData);
 
+  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+
+  console.log(chain)
+  
   const request: SponsoredCallRequest = {
-    chainId: 5,
-    target: module,
+    chainId: chain.id,
+    target: chain.module,
     data: encodedData,
   };
 
-  return await relay.sponsoredCall(request, config.gelato);
+  return await relay.sponsoredCall(request, chain.gelato);
 };

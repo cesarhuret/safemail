@@ -28,7 +28,7 @@ import {
   ClipboardAddIcon,
   ExtrenalLinkIcon,
 } from "../icons";
-import chainsList from "../utils/chain.json";
+import chainsList from "../utils/chains.json";
 
 init(config.airStack.apiKey);
 

@@ -6,7 +6,6 @@ export const getSignedSafeAddress = async ({litNodeClient, authSig, accessToken}
         ipfsId: config.signEmail.cid,
         authSig,
         jsParams: {
-          chainConfig: config.chainConfig,
           access_token: accessToken,
           publicKey: config.signEmail.pkp,
           pkp: {

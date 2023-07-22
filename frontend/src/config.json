@@ -1,8 +1,8 @@
 {
     "signTxn": {
-        "cid": "Qmf4r3WWdtGdM5sZLNFPLzog4kV34he4dG3yjrF5gyWR72",
-        "address": "0xC95c7E4fC8e0d9DC73DEbc3E2Ae04615Af139eB7",
-        "pkp": "0x04e6fe9e3350d438c3b580642dfa3fa3a9dd3b2941e0e6281ffe37c0a92f1c5f03300d897738ecde3c1ad12996b4be8d72d5122b4ca7a080983696ec36c17b5098"
+        "cid": "QmeU9CjYmxdPeGSCfEG8mrrR1HnLjWfqChfedKNDvcv52t",
+        "address": "0xe99F85A68e010C70E52FBA74871dF4C453c1789a",
+        "pkp": "0x04b9302c0202053a8886c767ffac8f58b1bc88234a0157a6c0faa07b1f8e9b781d59044f3c85c67049278e8d743ac0d3246772de2e615a0832ed04977721b5ef51"
     },
     "signEmail" :{
         "cid": "QmXLvqHPoeMDKAZ2MHa1g46H2eBaZnuxUdFZGS1xfRKdF1",
@@ -27,7 +27,6 @@
     "airStack": {
         "apiKey": "cf04259b075547098d87f31282243e58"
     },
-    "gelato": "ehGvXRr8invWVeTAjkJkDBLT8bpB9QY2XqPqjXn4tes_",
     "etherScan": {
         "apiKey": "DF7FDQYKAXK1JM2WP6QMHRMNDFJRBMWHQC"
     }

@@ -80,6 +80,8 @@ export const App = () => {
   const [search, setSearch] = useState<string>("");
   const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
 
+  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+
   const successToast = (title: string, desc: string, hash: string) => {
     toast({
       title,
@@ -117,7 +119,7 @@ export const App = () => {
     console.log(encodedData);
     console.log(tokenChoice);
 
-    const testTx = await execWithLit(config.module, config.factory, {
+    const testTx = await execWithLit(chain.module, config.factory, {
       from: loaderData?.safe,
       to: tokenChoice.address, // erc20 contract address goes here
       value: "0",

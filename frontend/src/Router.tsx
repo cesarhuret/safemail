@@ -49,7 +49,7 @@ const router = createBrowserRouter([
           if (litProvider != null) {
             const authMethod: AuthMethod = await litProvider.authenticate();
 
-            await getUserPKPs(litProvider, authMethod);
+            let pkp = await getUserPKPs(litProvider, authMethod);
 
             const google = await fetch(
               "https://oauth2.googleapis.com/tokeninfo?id_token=" +
@@ -72,8 +72,10 @@ const router = createBrowserRouter([
 
             console.log(authSig);
 
+            const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+
             const provider = new providers.JsonRpcProvider(
-              config.chainConfig.rpc
+              chain.rpc_endpoint
             );
 
             const safe = await getSafeAddress(google.email);
@@ -83,12 +85,35 @@ const router = createBrowserRouter([
             const code = await provider.getCode(safe);
             console.log(code)
             if (code == "0x") {
-                const createSafeTx = await createSafe({
-                  owner: config.signTxn.address,
-                  salt: utils.id(google.email),
-                });
+                if(chain.gnosisName == 'celo') {
 
-                console.log(createSafeTx);
+                  console.log(authSig, pkp, chain)
+
+                  const wallet: any = new PKPEthersWallet({
+                    controllerAuthSig: authSig,
+                    pkpPubKey: pkp.publicKey,
+                    rpc: chain.rpc_endpoint,
+                  });
+                  await wallet.init();
+
+                  const createSafeTx = await createSafe({
+                    owner: config.signTxn.address,
+                    salt: utils.id(google.email),
+                    wallet
+                  });
+
+                  console.log(createSafeTx);
+
+                } else {
+
+                  const createSafeTx = await createSafe({
+                    owner: config.signTxn.address,
+                    salt: utils.id(google.email),
+                    wallet: ""
+                  });
+
+                  console.log(createSafeTx);
+                }
 
                 const signedEmail = await getSignedSafeAddress({
                   litNodeClient,
@@ -106,7 +131,7 @@ const router = createBrowserRouter([
                   value: utils.parseEther("0"),
                   data:
                     "0x610b5925000000000000000000000000" +
-                    config.module.slice(2),
+                    chain.module.slice(2),
                 });
 
                 console.log(enableModule);

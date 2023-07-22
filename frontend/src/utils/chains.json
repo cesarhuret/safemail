@@ -35,7 +35,7 @@
     },
     {
       "name": "Gnosis",
-      "gnosisName": "xdai",
+      "gnosisName": "gnosis-chain",
       "symbol": "xDai",
       "id": 100,
       "image_url":"https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png?1609402668",

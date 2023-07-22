@@ -1,13 +1,11 @@
 import * as React from "react";
 import {
-  ChakraProvider,
   Box,
   Text,
   Link,
   VStack,
   Code,
   Grid,
-  theme,
   Heading,
   FormControl,
   FormLabel,
@@ -43,7 +41,6 @@ import {
   MenuDivider,
   IconButton,
 } from "@chakra-ui/react";
-import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
 import { ProviderType } from "@lit-protocol/constants";
@@ -81,7 +78,6 @@ export const App = () => {
   const [modalIsLoading, setModalIsLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
-  const [receiver, setReceiver] = useState<string>("");
 
   const successToast = (Title: string, Desc: string) => {
     toast({
@@ -134,11 +130,6 @@ export const App = () => {
     }, 2000);
   };
 
-  console.log(loaderData);
-  useEffect(() => {
-    // setEmail("leonardo.ryuta05@gmail.com");
-    console.log(loaderData);
-  }, [loaderData]);
 
   const searchAccount = () => {
     if (search.endsWith("@gmail.com")) {

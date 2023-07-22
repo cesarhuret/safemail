@@ -128,7 +128,7 @@ const router = createBrowserRouter([
                                   pkpPublicKey: config.signTxn.pkp,
                                 },
                                 accessToken: authMethod.accessToken,
-                                email: email,
+                                email,
                                 safeSignature: signedEmail.signature,
                             });
                   

@@ -18,7 +18,7 @@ import {
   Avatar,
   Link,
 } from "@chakra-ui/react";
-import { ethers } from "ethers";
+import { ethers, providers } from "ethers";
 import { init, useQuery } from "@airstack/airstack-react";
 import config from "../config.json";
 
@@ -34,7 +34,7 @@ export const Dashboard = () => {
   const [walletAddress, setWalletAddress] = useState<string>("");
   const [nftList, setNftList] = useState<any[]>([]);
   const [tokenList, setTokenList] = useState<any[]>([]);
-  const provider = new ethers.providers.JsonRpcProvider(
+  const provider = new providers.JsonRpcProvider(
     "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
   );
 

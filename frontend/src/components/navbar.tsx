@@ -25,7 +25,7 @@ import {
     IconButton,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
-import { ethers, providers } from "ethers";
+import { providers, utils } from "ethers";
 
 export function NavBar() {
     const mockData = { email: "leonardo.ryuta05@gmail.com", wallet: "0x2346ac3Bc15656D4dE1da99384B5498A75f128a2"}
@@ -33,11 +33,11 @@ export function NavBar() {
     const [balance, setBalance] = useState<string>("0");
     const { isOpen, onOpen, onClose } = useDisclosure();
 
-    const provider = new ethers.providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw");
+    const provider = new providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw");
 
     const getBalance = async () => {
         await provider.getBalance(walletAddress).then((balance) => {
-            setBalance(parseFloat(ethers.utils.formatEther(balance)).toFixed(2));
+            setBalance(parseFloat(utils.formatEther(balance)).toFixed(2));
         });
     }
 

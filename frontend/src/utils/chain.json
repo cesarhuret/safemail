@@ -8,25 +8,25 @@
       "rpc_endpoint": "https://ethereum-goerli.publicnode.com"
     },
     {
-      "name": "Mumbai",
+      "name": "Polygon",
       "symbol": "MATIC",
-      "id": "80001",
+      "id": "137",
       "image_url":"https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912",
-      "rpc_endpoint": "https://polygon-mumbai-bor.publicnode.com/"
+      "rpc_endpoint": "https://polygon.llamarpc.com"
     },
     {
       "name": "Celo",
       "symbol": "CELO",
-      "id": "44787",
+      "id": "42220",
       "image_url":"https://assets.coingecko.com/coins/images/11090/small/InjXBNx9_400x400.jpg?1674707499",
-      "rpc_endpoint": "https://alfajores-forno.celo-testnet.org/"
+      "rpc_endpoint": "https://rpc.ankr.com/celo"
     },
     {
       "name": "Gnosis",
-      "symbol": "GNO",
-      "id": "10200",
+      "symbol": "xDai",
+      "id": "100",
       "image_url":"https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png?1609402668",
-      "rpc_endpoint": "https://rpc.chiadochain.net/"
+      "rpc_endpoint": "https://gnosis-mainnet.public.blastapi.io"
     }
   ]
 }

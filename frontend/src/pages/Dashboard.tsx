@@ -28,6 +28,7 @@ import {
   ClipboardAddIcon,
   ExtrenalLinkIcon,
 } from "../icons";
+import chainsList from "../utils/chain.json";
 
 init(config.airStack.apiKey);
 
@@ -40,7 +41,7 @@ export const Dashboard = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [internalTransactions, setInternalTransactions]: any = useState(null);
   const provider = new ethers.providers.JsonRpcProvider(
-    "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
+    JSON.parse(localStorage.getItem("chain") as string).rpc_endpoint || chainsList.chains[0].rpc_endpoint
   );
 
   const query = `
@@ -212,7 +213,7 @@ export const Dashboard = () => {
                   Transactions
                 </Tab>
               </TabList>
-              <TabPanels>
+              <TabPanels overflowY="scroll" maxH="50vh">
                 <TabPanel>
                   <Skeleton isLoaded={!loading}>
                     {tokenList ? (

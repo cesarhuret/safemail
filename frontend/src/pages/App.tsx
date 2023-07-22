@@ -240,9 +240,11 @@ export const App = () => {
                           />
                           {tokenChoice.symbol}
                         </MenuButton>
-                        <MenuList minW="min">
+                        <MenuList minW="min" bg="#050505">
                           {tokens.tokens.map((token: any, index: number) => (
                             <MenuItem
+                              bg="#050505"
+                              _hover={{bg:"gray.800"}}
                               key={index}
                               onClick={() => {
                                 setTokenChoice(token);

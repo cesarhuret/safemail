@@ -44,7 +44,7 @@ export function NavBar() {
   const [chain, setChain] = useState<any>(JSON.parse(localStorage.getItem("chain") as string) || chainsList.chains[0]);
 
   const provider = new providers.JsonRpcProvider(
-    "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
+    chain.rpc_endpoint || chainsList.chains[0].rpc_endpoint
   );
 
   const getBalance = async () => {

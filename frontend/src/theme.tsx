@@ -12,7 +12,7 @@ const theme = extendTheme({
   style: {
     global: (props: any) => ({
       body: {
-        bg: "#050505",
+        backgroundColor: "#050505",
       },
     }),
   },

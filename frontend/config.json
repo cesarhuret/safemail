@@ -1,10 +1,26 @@
 {
-    "signTxData": {
-        "cid": "QmQREnjPV2uHUrbByhdGgRwYUaQaufs1fyYz9LhTUUtMSi",
-        "pkp": "0x04b32fc6254552da259d4d3c7d25386533f4b644cc85cf9b54faa7cc5429bdf3f4d06c7f11fabd53f16273cd36744bbbf0f2b0a3139c168d08655783a8cf899507",
-        "address": "0x870Bd5CF5b736A1b27bA79f017e1f2b5bA56CE44"
+    "signTxn": {
+        "cid": "QmT9NB5h7DxfU2ypWsnusFbLhLRJFRRkHND4nDnSA9D8uA",
+        "address": "0x550EA83854f01a573A463c202cb77439dAb9dD38",
+        "pkp": "0x04ab0d4963024b32bbb57b25f5753d3bda76b81d1994e3a5e2148d5201b6457604b1e486ba12775447daa1f3816e2d98ec38882d718a2117d74343c887fc55e95c"
+    },
+    "signEmail" :{
+        "cid": "QmXLvqHPoeMDKAZ2MHa1g46H2eBaZnuxUdFZGS1xfRKdF1",
+        "address": "0xec9B7c27e728E0f320D277078d8b2f4ecC023aB2",
+        "pkp": "0x04f49498d5bf2fe3fa570071df190b4147fd15f3d160070f0328c9323b01760a79ee0561cac7912809caf97b542ffea7167f243326952da042b360ea721e6ebe59"
+    },
+    "signMessage": {
+        "cid": "QmRzpXZiK8qv9BkgWvWfbD6oitZhX3m7ubfPNCzxSADwGu",
+        "address": "0x027956415cc0867c9544B8C16e6C6554e99Fbb99",
+        "pkp": "0x04a191fa5c6097912afa430b948bcad46867d03857b4a2764c8c2d85f5344fbbc51cb7aeef854ba3cbe7c1f4ad98fe2b765d8d58713251ae46fb81ae8d0125ff61"
+    },
+    "chainConfig": {
+        "id": 5,
+        "name": "goerli",
+        "rpc": "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
     },
     "lit": {
-        "apiKey": "ec8d2250312234b05e2746aa7e2ebd9d"
-    }
+        "apiKey": "64DDCA6B-B48C-4871-B516-FB05AAD885A1_cesar"
+    },
+    "factory": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2"
 }

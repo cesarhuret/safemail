@@ -5,6 +5,8 @@ import { isSignInRedirect, LitAuthClient } from "@lit-protocol/lit-auth-client";
 import { ProviderType } from "@lit-protocol/constants";
 import { AuthMethod } from "@lit-protocol/types";
 import { PKPEthersWallet } from "@lit-protocol/pkp-ethers";
+import { createSafe, getSafeTransaction } from "./hooks";
+import { utils } from "ethers";
 
 const router = createBrowserRouter([
     {
@@ -19,7 +21,7 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => {
                     const client = new LitAuthClient({
                         litRelayConfig: {
-                          relayApiKey: "ec8d2250312234b05e2746aa7e2ebd9d",
+                          relayApiKey: "64DDCA6B-B48C-4871-B516-FB05AAD885A1_cesar",
                         },
                     });
 
@@ -79,11 +81,24 @@ const router = createBrowserRouter([
                             wallet = new PKPEthersWallet({
                                 controllerAuthSig: authSig,
                                 pkpPubKey: pkp.publicKey,
-                                rpc: "https://chain-rpc.litprotocol.com/http"
+                                rpc: "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
                             })
                             await wallet.init();
 
                             console.log(wallet);
+
+                            const salt = utils.id(email + Math.random().toString().substring(2, 5));
+
+                            const owner = "0x550EA83854f01a573A463c202cb77439dAb9dD38"
+
+                            const safe = await createSafe({
+                                owner,
+                                wallet,
+                                salt,
+                            })
+
+                            console.log(safe);
+
                             return { wallet, client, email }
                         }
                     }

@@ -25,3 +25,11 @@ Lit Protocol enables us to use Lit Actions - computing JS code stored on IPFS in
 
 3. Mint a PKP: https://lit-protocol.calderaexplorer.xyz/token/0x8F75a53F65e31DD0D2e40d0827becAaE2299D111/write-contract
 ![Alt text](./assets/image-1.png)
+
+
+#### Creating a Safe via a Lit Action
+1. Create a Lit Action with Mint/Grant/Burn and the steps above 
+
+2. The Lit Action calls the Safe Factory contract with the email address as the salt, and the owner as the Lit Action PKP.
+
+3. The Safe Factory contract creates a new Safe using the Create2 pattern. This process enables anyone to create a Safe for any email address, and the Safe will be consistently computed using the same email address and owner.

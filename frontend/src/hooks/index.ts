@@ -5,3 +5,4 @@ export * from "./getSignedSafeAddress";
 export * from './shortenHash';
 export * from './predictSafe';
 export * from './execWithLit';
+export * from './getUserPKPs';

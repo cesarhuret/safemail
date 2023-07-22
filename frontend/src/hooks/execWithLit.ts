@@ -5,15 +5,26 @@ import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
 
 export const execWithLit = async (
   module: string,
-  litNodeClient: any,
   factoryAddress: string,
-  txData: any,
-  wallet: any,
-  authSig: any,
-  authMethod: any
+  txData: any
 ) => {
+  const litNodeClient = new LitNodeClient({
+    litNetwork: "serrano",
+    debug: false,
+  });
 
-    const relay = new GelatoRelay();
+  await litNodeClient.connect();
+
+  const authMethod = JSON.parse(localStorage.getItem("authMethod") || "{}");
+
+  const { authSig } = await litNodeClient.signSessionKey({
+    authMethods: [authMethod],
+    expiration: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
+    resources: [],
+    chainId: 5,
+  });
+
+  const relay = new GelatoRelay();
 
   const { signatures, response } = await litNodeClient.executeJs({
     ipfsId: config.signMessage.cid,
@@ -72,7 +83,6 @@ export const execWithLit = async (
     target: module,
     data: encodedData,
   };
-
 
   return await relay.sponsoredCall(request, config.gelato);
 };

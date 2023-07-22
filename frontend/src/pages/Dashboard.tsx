@@ -21,8 +21,13 @@ import {
 import { ethers, providers } from "ethers";
 import { init, useQuery } from "@airstack/airstack-react";
 import config from "../config.json";
-import { shortenHash } from "../hooks";
-import { MailIcon, ClipboardCheckIcon, ClipboardAddIcon, ExtrenalLinkIcon } from "../icons";
+import { getSafeAddress, shortenHash } from "../hooks";
+import {
+  MailIcon,
+  ClipboardCheckIcon,
+  ClipboardAddIcon,
+  ExtrenalLinkIcon,
+} from "../icons";
 
 init(config.airStack.apiKey);
 
@@ -127,9 +132,10 @@ export const Dashboard = () => {
   }, [loading]);
 
   useEffect(() => {
-    setEmail(mockData.email);
-    setWalletAddress(mockData.address);
-  }, [email]);
+    (async () => {
+      setWalletAddress(await getSafeAddress(email));
+    })()
+  }, []);
 
   useEffect(() => {
     getBalance();
@@ -162,11 +168,7 @@ export const Dashboard = () => {
             name={email}
             src={`https://noun-api.com/beta/pfp?name=${email}`}
           />
-          <Container
-            bg="#050505"
-            borderRadius={15}
-            p={4}
-          >
+          <Container bg="#050505" borderRadius={15} p={4}>
             <VStack gap={4}>
               <Flex alignItems="center" gap={2}>
                 <MailIcon size={20} />
@@ -200,9 +202,9 @@ export const Dashboard = () => {
                   <Skeleton isLoaded={!loading}>
                     {tokenList ? (
                       <VStack>
-                        {tokenList.map((token) => (
+                        {tokenList.map((token, index) => (
                           <Flex
-                            key={token.tokenId}
+                            key={index}
                             p={4}
                             borderRadius="md"
                             bg="black"
@@ -225,21 +227,19 @@ export const Dashboard = () => {
                   <Skeleton isLoaded={!loading}>
                     {nftList ? (
                       <Grid templateColumns="repeat(3, 1fr)" gap={2}>
-                        {nftList.map((nft: any) => {
-                          return (
-                            <Container
-                              key={nft.tokenId}
-                              p={4}
-                              borderRadius="md"
-                              bg="black"
-                            >
-                              <Image
-                                src={nft.tokenNfts.contentValue.image.original}
-                              />
-                              <Text>{nft.tokenNfts.metaData.name}</Text>
-                            </Container>
-                          );
-                        })}
+                        {nftList.map((nft: any) => (
+                          <Container
+                            key={nft.tokenId}
+                            p={4}
+                            borderRadius="md"
+                            bg="black"
+                          >
+                            <Image
+                              src={nft.tokenNfts.contentValue.image.original}
+                            />
+                            <Text>{nft.tokenNfts.metaData.name}</Text>
+                          </Container>
+                        ))}
                       </Grid>
                     ) : (
                       <Text>No NFTs Found</Text>
@@ -250,41 +250,49 @@ export const Dashboard = () => {
                 </TabPanel>
                 <TabPanel>
                   <Skeleton isLoaded={!loading}>
-                    {
-                      internalTransactions ? (
-                        <VStack>
-                          {
-                            internalTransactions.map(
-                              (internalTransaction:any, index:number) => {
-                                return (
-                                  <Flex
-                                    key={index}
-                                    p={2}
-                                    borderRadius="md"
-                                    bg="black"
-                                    justifyContent="space-between"
-                                    alignItems="center"
-                                    w="100%"
-                                    gap={4}
-                                  >
-                                    <Text>From: {shortenHash(internalTransaction.from)}</Text>
-                                    <Text>To: {shortenHash(internalTransaction.to)}</Text>
-                                    <Text>Value: {parseFloat(ethers.utils.formatEther(internalTransaction.value)).toFixed(2)}</Text>
-                                    <Button>
-                                      <Link href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`} isExternal>
-                                        <ExtrenalLinkIcon size={15} />
-                                      </Link>
-                                    </Button>
-                                  </Flex>
-                                )
-                              }
-                            )
-                          }
-                        </VStack>
-                      ) : (
-                        <Text>No transactions found</Text>
-                      )
-                    }
+                    {internalTransactions ? (
+                      <VStack>
+                        {internalTransactions.map(
+                          (internalTransaction: any, index: number) => (
+                            <Flex
+                              key={index}
+                              p={2}
+                              borderRadius="md"
+                              bg="black"
+                              justifyContent="space-between"
+                              alignItems="center"
+                              w="100%"
+                              gap={4}
+                            >
+                              <Text>
+                                From: {shortenHash(internalTransaction.from)}
+                              </Text>
+                              <Text>
+                                To: {shortenHash(internalTransaction.to)}
+                              </Text>
+                              <Text>
+                                Value:{" "}
+                                {parseFloat(
+                                  ethers.utils.formatEther(
+                                    internalTransaction.value
+                                  )
+                                ).toFixed(2)}
+                              </Text>
+                              <Button>
+                                <Link
+                                  href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`}
+                                  isExternal
+                                >
+                                  <ExtrenalLinkIcon size={15} />
+                                </Link>
+                              </Button>
+                            </Flex>
+                          )
+                        )}
+                      </VStack>
+                    ) : (
+                      <Text>No transactions found</Text>
+                    )}
                   </Skeleton>
                   <Skeleton isLoaded={!loading} h="20px" my={2} />
                   <Skeleton isLoaded={!loading} h="20px" my={2} />

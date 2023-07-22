@@ -36,22 +36,37 @@ import {
   Stack,
   Image,
   Tooltip,
+  IconButton,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
 import { ProviderType } from "@lit-protocol/constants";
 import { ArrowRightIcon } from "../icons";
-import tokensList from "../utils/tokensList.json"
+import { execWithLit, getSafeAddress } from "../hooks";
+import config from "../config.json";
+import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { utils } from "ethers";
+import ERC20ABI from "../utils/ERC20.json";
+import tokens from "../utils/tokens.json";
+import { BsArrowRight } from "react-icons/bs";
+
 interface TransferData {
   to: string;
   amount: number;
 }
 
 export const App = () => {
-  const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [isConnected, setIsConnected] = useState<boolean>(false);
-  const [email, setEmail] = useState<string>("");
+  const loaderData = useRouteLoaderData("root") as {
+    safe: string;
+    email: string;
+    litNodeClient: any;
+    sessionKey: any;
+    authMethod: any;
+  };
+
+  const navigate = useNavigate();
+
   const [transferData, setTransferData] = useState<TransferData>({
     to: "",
     amount: 0,
@@ -59,7 +74,9 @@ export const App = () => {
   const toast = useToast();
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [modalIsLoading, setModalIsLoading] = useState<boolean>(false);
-  const [tokenChoice, setTokenChoice] = useState<string>("ETH");
+  const [search, setSearch] = useState<string>("");
+  const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
+  const [receiver, setReceiver] = useState<string>("");
 
   const successToast = (Title: string, Desc: string) => {
     toast({
@@ -81,110 +98,146 @@ export const App = () => {
     });
   };
 
-  useEffect(() => {
-    setEmail("leonardo.ryuta05@gmail.com");
-  });
+  const submitTx = async () => {
+    setModalIsLoading(true);
+
+    const toSafeAddress = await getSafeAddress(transferData.to);
+
+    const iface = new utils.Interface(ERC20ABI);
+
+    const encodedData = iface.encodeFunctionData("transfer", [
+      toSafeAddress,
+      utils.parseEther(transferData.amount.toString()),
+    ]);
+
+    const testTx = await execWithLit(config.module, config.factory, {
+      from: loaderData?.safe,
+      to: "", // erc20 contract address goes here
+      value: utils.parseEther("0.0001"),
+      data: "0x",
+    });
+
+    console.log(testTx);
+
+    setTimeout(() => {
+      setModalIsLoading(false);
+      onClose();
+      successToast(
+        "Transaction Submitted",
+        `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`
+      );
+    }, 2000);
+  };
+
+  console.log(loaderData);
 
   return (
     <>
-      {isLoading ? (
-        <Container
-          as={Flex}
-          h="100%"
-          w="100%"
-          justifyContent="center"
-          alignItems="center"
-        >
-          <Spinner size="xl" />
-        </Container>
-      ) : (
-        <Box p={3} textAlign="center" fontSize="xl">
-          {email !== "" ? (
+      <Box p={3} textAlign="center" fontSize="xl">
+        {loaderData?.email ? (
+          <VStack
+            spacing={8}
+            h="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
             <VStack
-              spacing={8}
-              h="100%"
-              alignItems="center"
-              justifyContent="center"
+              gap={6}
+              px={10}
+              pt={16}
+              pb={8}
+              minW="10%"
+              alignItems="flex-start"
+              borderRadius={15}
+              bg="#050505"
             >
-              <VStack
-                gap={6}
-                px={10}
-                pt={16}
-                pb={8}
-                minW="10%"
-                alignItems="flex-start"
-                borderRadius={15}
-                bg="#050505"
-              >
-                <Heading size="lg"> Send Funds </Heading>
-                <VStack w="100%" alignItems="start" gap={4}>
-                  <FormControl w="250px">
-                    <FormLabel>Email</FormLabel>
-                    <Input
-                      maxW="250px"
-                      type="email"
+              <Heading size="lg">Send Funds</Heading>
+              <VStack w="100%" alignItems="start" gap={4}>
+                <FormControl w="250px">
+                  <FormLabel>Email</FormLabel>
+                  <Input
+                    maxW="250px"
+                    type="email"
+                    variant="outline"
+                    placeholder="Type receiver email"
+                    onChange={(e) => {
+                      setTransferData({
+                        ...transferData,
+                        to: e.target.value,
+                      });
+                    }}
+                  />
+                </FormControl>
+                <FormControl w="250px">
+                  <FormLabel>Amount</FormLabel>
+                  <InputGroup variant="unstyled">
+                    <InputLeftAddon bg="#050505" p={0}>
+                      <Select
+                        placeholder=""
+                        border=""
+                        colorScheme="black"
+                        w="100px"
+                        bg="#050505"
+                        onChange={(e) => {
+                          setTokenChoice(JSON.parse(e.target.value));
+                        }}
+                      >
+                        {tokens.tokens.map((token: any, index: number) => (
+                          <option key={index} value={JSON.stringify(token)}>
+                            {token.symbol}
+                          </option>
+                        ))}
+                      </Select>
+                    </InputLeftAddon>
+                    <NumberInput
+                      w="100%"
+                      min={0}
                       variant="outline"
-                      placeholder="Type reciever email"
+                      placeholder="Amount to be sent"
                       onChange={(e) => {
                         setTransferData({
                           ...transferData,
-                          to: e.target.value,
+                          amount: parseInt(e),
                         });
                       }}
-                    />
-                  </FormControl>
-                  <FormControl w="250px">
-                    <FormLabel>Amount</FormLabel>
-                    <InputGroup variant="unstyled">
-                      <InputLeftAddon bg="#050505" p={0}>
-                        <Select
-                          placeholder=""
-                          border=""
-                          colorScheme="black"
-                          w="100px"
-                          bg="#050505"
-                          onChange={(e) => {
-                            setTokenChoice(JSON.parse(e.target.value));
-                          }}
-                        >
-                          {tokensList.tokens.map((token:any, index:number) => (
-                            <option key={index} value={JSON.stringify(token)}>{token.symbol}</option>
-                          ))}
-                        </Select>
-                      </InputLeftAddon>
-                      <NumberInput
-                        w="100%"
-                        min={0}
-                        variant="outline"
-                        placeholder="Amount to be sent"
-                        onChange={(e) => {
-                          setTransferData({
-                            ...transferData,
-                            amount: parseInt(e),
-                          });
-                        }}
-                      >
-                        <NumberInputField />
-                        <NumberInputStepper>
-                          <NumberIncrementStepper />
-                          <NumberDecrementStepper />
-                        </NumberInputStepper>
-                      </NumberInput>
-                    </InputGroup>
-                  </FormControl>
-                  <Button onClick={onOpen}>Send</Button>
-                </VStack>
+                    >
+                      <NumberInputField />
+                      <NumberInputStepper>
+                        <NumberIncrementStepper />
+                        <NumberDecrementStepper />
+                      </NumberInputStepper>
+                    </NumberInput>
+                  </InputGroup>
+                </FormControl>
+                <Button onClick={onOpen}>Send</Button>
               </VStack>
             </VStack>
-          ) : (
-            <VStack>
-              <HStack>
-                <Text>Welcome to SafeMail</Text>
-              </HStack>
-            </VStack>
-          )}
-        </Box>
-      )}
+          </VStack>
+        ) : (
+          <VStack
+            spacing={8}
+            h="100%"
+            alignItems="center"
+            justifyContent="center"
+          >
+            <HStack spacing={"5"}>
+              {/* <Image src={"logo.png"} w={"50px"} borderRadius={7} /> */}
+              <Text fontWeight={"bold"}>Welcome To SafeMail</Text>
+            </HStack>
+            <HStack>
+              <Input
+                placeholder={"Search for a Google Account..."}
+                onChange={(e: any) => setSearch(e.target.value)}
+              />
+              <IconButton
+                aria-label="search"
+                icon={<BsArrowRight />}
+                onClick={() => navigate("/" + search)}
+              />
+            </HStack>
+          </VStack>
+        )}
+      </Box>
 
       <Modal size="lg" isOpen={isOpen} isCentered={true} onClose={onClose}>
         <ModalOverlay bg="blackAlpha.900" />
@@ -210,12 +263,14 @@ export const App = () => {
                 >
                   <VStack>
                     <Image
-                      src={`https://noun-api.com/beta/pfp?name=${email}`}
+                      src={`https://noun-api.com/beta/pfp?name=${loaderData?.email}`}
                       borderRadius="10px"
                       w={20}
                     />
                     <Tooltip>
-                      <Text>{email.replace("@gmail.com", "")}</Text>
+                      <Text>
+                        {loaderData?.email?.replace("@gmail.com", "")}
+                      </Text>
                     </Tooltip>
                   </VStack>
                   <VStack>

@@ -1,5 +1,5 @@
 import { color, extendTheme } from "@chakra-ui/react";
-// import "@fontsource/inter";
+import "@fontsource/inter";
 
 const activeLabelStyles = {
   transform: "scale(0.85) translateY(-24px)",

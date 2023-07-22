@@ -121,7 +121,7 @@ export const App = () => {
 
     const testTx = await execWithLit(chain.module, config.factory, {
       from: loaderData?.safe,
-      to: tokenChoice.address, // erc20 contract address goes here
+      to: tokenChoice[chain.gnosisName], // erc20 contract address goes here
       value: "0",
       data: encodedData,
     });

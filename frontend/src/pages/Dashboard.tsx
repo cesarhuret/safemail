@@ -40,8 +40,9 @@ export const Dashboard = () => {
   const [tokenList, setTokenList] = useState<any[]>([]);
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [internalTransactions, setInternalTransactions]: any = useState(null);
+  const [chain, setChain] = useState<any>(JSON.parse(localStorage.getItem("chain") as string) || chainsList.chains[0]);
   const provider = new ethers.providers.JsonRpcProvider(
-    JSON.parse(localStorage.getItem("chain") as string).rpc_endpoint || chainsList.chains[0].rpc_endpoint
+    chain.rpc_endpoint
   );
 
   const query = `
@@ -105,7 +106,7 @@ export const Dashboard = () => {
   const getInternalTransactions = async () => {
     if (!walletAddress) return;
     await fetch(
-      `https://safe-transaction-goerli.safe.global/api/v1/safes/${walletAddress}/transfers/`
+      `https://safe-transaction-${chain.gnosisName}.safe.global/api/v1/safes/${walletAddress}/transfers/`
     ).then(async (res) => {
       const data = await res.json();
       console.log(data.results)

@@ -14619,7 +14619,7 @@ var go = async () => {
       chain
     });
     let txParams;
-    if (toAddress == "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2") {
+    if (toAddress == "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2" || toAddress == "0xc22834581ebc8527d974f8a1c97e1bea4ef910bc") {
       txParams = {
         nonce: latestNonce,
         gasPrice,
@@ -14631,7 +14631,7 @@ var go = async () => {
       };
     } else {
       const signer = ethers.utils.verifyMessage(toAddress, safeSignature);
-      if (signer == "0xec9B7c27e728E0f320D277078d8b2f4ecC023aB2") {
+      if (signer == "0x115E6CB8fa79683FE2c1B4B39D12A2601f26C9f3") {
         txParams = {
           nonce: latestNonce,
           gasPrice,

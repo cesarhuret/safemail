@@ -24,6 +24,10 @@ export const execWithLit = async (
     chainId: 5,
   });
 
+  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+
+  console.log(chain)
+
   const relay = new GelatoRelay();
 
   const { signatures, response } = await litNodeClient.executeJs({
@@ -31,9 +35,9 @@ export const execWithLit = async (
     // code: litActionCode,
     authSig,
     jsParams: {
+      chain: chain.gnosisName,
       publicKey: config.signMessage.pkp,
       access_token: authMethod.accessToken,
-      factoryAddress,
       safeAddress: txData.from,
       to: txData.to,
       value: txData.value,
@@ -77,10 +81,6 @@ export const execWithLit = async (
   ]);
 
   console.log(encodedData);
-
-  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
-
-  console.log(chain)
   
   const request: SponsoredCallRequest = {
     chainId: chain.id,

@@ -1,18 +1,18 @@
 {
     "signTxn": {
-        "cid": "QmeU9CjYmxdPeGSCfEG8mrrR1HnLjWfqChfedKNDvcv52t",
-        "address": "0xe99F85A68e010C70E52FBA74871dF4C453c1789a",
-        "pkp": "0x04b9302c0202053a8886c767ffac8f58b1bc88234a0157a6c0faa07b1f8e9b781d59044f3c85c67049278e8d743ac0d3246772de2e615a0832ed04977721b5ef51"
+        "cid": "Qmf6Rk6WyMHFHZ26g1GCjKJBeQhHFFwtBrVXxLe1ZMvi9K",
+        "address": "0x888A322c72083d36B9D2B24ef7ec0Ec768051111",
+        "pkp": "0x04fb521ece9ed2736dfbc631fe1a4c4366ea19e7e2e3a072e9d61e8730b7d1f79d351d18899a7364f5f67975d43f40e4d4c4d367e9b8ad8c5ed0fa6059ec79f190"
     },
     "signEmail" :{
-        "cid": "QmXLvqHPoeMDKAZ2MHa1g46H2eBaZnuxUdFZGS1xfRKdF1",
-        "address": "0xec9B7c27e728E0f320D277078d8b2f4ecC023aB2",
-        "pkp": "0x04f49498d5bf2fe3fa570071df190b4147fd15f3d160070f0328c9323b01760a79ee0561cac7912809caf97b542ffea7167f243326952da042b360ea721e6ebe59"
+        "cid": "QmXXxyDfNVnYJTYbMAXszjNrLwf4Q13VKx3pM8NaFZgt3c",
+        "address": "0x115E6CB8fa79683FE2c1B4B39D12A2601f26C9f3",
+        "pkp": "0x04d747804dfb00a2ad21f797600fa3ba40aee7fd41ff85be982ae7510e874479107750cccac3223c59f5681af4afb032b4c4c2ca46202080d92564b201c8736e4d"
     },
     "signMessage": {
-        "cid": "QmRzpXZiK8qv9BkgWvWfbD6oitZhX3m7ubfPNCzxSADwGu",
-        "address": "0x027956415cc0867c9544B8C16e6C6554e99Fbb99",
-        "pkp": "0x04a191fa5c6097912afa430b948bcad46867d03857b4a2764c8c2d85f5344fbbc51cb7aeef854ba3cbe7c1f4ad98fe2b765d8d58713251ae46fb81ae8d0125ff61"
+        "cid": "QmazEGZNkKQzJsjPspJcxDttdroqSc24eCPoRz1D1EQ257",
+        "address": "0x3Df0BB168BCb424f5a21283DafdE76b8A031B71C",
+        "pkp": "0x04f42da629da03334f1f529f5bd6a022835e0dd72a843c59771a44abf6a70b53bd98e4ad0ffa2afeaf3b7e16380350ac4b91992f4f6fe46ae8b9d7415218942ba7"
     },
     "chainConfig": {
         "id": 5,
@@ -24,10 +24,22 @@
     },
     "module": "0x366e224b1d229317447E241cD30bb75ec0ba7547",
     "factory": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2",
+    "celoFactory": "0xc22834581ebc8527d974f8a1c97e1bea4ef910bc",
+    "celoSingleton": "0xfb1bffC9d739B8D520DaF37dF666da4C687191EA",
     "airStack": {
         "apiKey": "cf04259b075547098d87f31282243e58"
     },
     "etherScan": {
         "apiKey": "DF7FDQYKAXK1JM2WP6QMHRMNDFJRBMWHQC"
+    },
+    "regular": {
+        "singleton": "0x3E5c63644E683549055b9Be8653de26E0B4CD36E",
+        "factory": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2",
+        "rpc": "https://bsc.blockpi.network/v1/rpc/public"
+    },
+    "celo": {
+        "singleton": "0xfb1bffC9d739B8D520DaF37dF666da4C687191EA",
+        "factory": "0xc22834581ebc8527d974f8a1c97e1bea4ef910bc",
+        "rpc": "http://3.65.14.197:8545/"
     }
 }

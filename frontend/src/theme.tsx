@@ -6,6 +6,9 @@ const activeLabelStyles = {
 };
 
 const theme = extendTheme({
+  config: {
+    initialColorMode: 'dark'
+  },
   style: {
     global: (props: any) => ({
       body: {

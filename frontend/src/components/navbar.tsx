@@ -144,11 +144,9 @@ export function NavBar() {
               search ? (
                 <Avatar
                   size="sm"
-                  src={`https://noun-api.com/beta/pfp?name=${search}@gmail.com`}
+                  src={ search.endsWith("@gmail.com") ? `https://noun-api.com/beta/pfp?name=${search}` : `https://noun-api.com/beta/pfp?name=${search}@gmail.com`}
                 />
-              ) : (
-                <></>
-              )
+              ) : null
             }
           </HStack>
         ) : (

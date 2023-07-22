@@ -2,7 +2,6 @@ import * as React from "react";
 import {
   Box,
   Text,
-  Link,
   VStack,
   Code,
   Grid,
@@ -47,7 +46,7 @@ import { ProviderType } from "@lit-protocol/constants";
 import { ArrowRightIcon } from "../icons";
 import { execWithLit, getSafeAddress } from "../hooks";
 import config from "../config.json";
-import { useNavigate, useRouteLoaderData } from "react-router-dom";
+import { Link, useNavigate, useRouteLoaderData } from "react-router-dom";
 import { utils } from "ethers";
 import ERC20ABI from "../utils/ERC20.json";
 import tokens from "../utils/tokens.json";
@@ -79,13 +78,13 @@ export const App = () => {
   const [search, setSearch] = useState<string>("");
   const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
 
-  const successToast = (Title: string, Desc: string) => {
+  const successToast = (title: string, desc: string, hash: string) => {
     toast({
-      title: Title,
-      description: Desc,
+      title,
+      description: desc,
       status: "success",
       duration: 9000,
-      isClosable: true,
+      isClosable: true
     });
   };
 
@@ -111,22 +110,39 @@ export const App = () => {
       utils.parseEther(transferData.amount.toString()),
     ]);
 
+    console.log(toSafeAddress)
+    console.log(transferData.amount.toString())
+    console.log(encodedData)
+    console.log(tokenChoice)
+
     const testTx = await execWithLit(config.module, config.factory, {
       from: loaderData?.safe,
-      to: "", // erc20 contract address goes here
-      value: utils.parseEther("0.0001"),
-      data: "0x",
+      to: tokenChoice.address, // erc20 contract address goes here
+      value: '0',
+      data: encodedData,
     });
 
     console.log(testTx);
+    let txHash;
 
-    setTimeout(() => {
-      setModalIsLoading(false);
-      onClose();
-      successToast(
-        "Transaction Submitted",
-        `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`
-      );
+    let interval = setInterval(async () => {
+      
+      const res = await fetch('https://api.gelato.digital/tasks/status/' + testTx.taskId)
+      const result = await res.json();
+      
+      console.log(result);
+
+      if(result.task?.transactionHash && result.task?.taskState == "ExecSuccess") {
+        txHash = result.task?.transactionHash;
+        clearInterval(interval);
+        setModalIsLoading(false);
+        onClose();
+        successToast(
+          "Transaction Submitted",
+          `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`,
+          txHash
+        );
+      }
     }, 2000);
   };
 
@@ -225,6 +241,7 @@ export const App = () => {
                   bg={`linear-gradient(#050505, #050505) padding-box, 
                     linear-gradient(135deg, #000000, #36efc055) border-box`}
                   onClick={onOpen}
+                  disabled={!transferData.to.endsWith("@gmail.com")}
                 >
                   Send
                 </Button>
@@ -277,7 +294,7 @@ export const App = () => {
                 justifyContent="center"
                 alignItems="center"
               >
-                <Spinner size="xl" />
+                <Spinner />
               </Stack>
             ) : (
               <>
@@ -302,6 +319,7 @@ export const App = () => {
                     <ArrowRightIcon size={20} />
                     <HStack>
                       <Text>{transferData.amount}</Text>
+                      <Image src={tokenChoice.image_url} h={"5"} />
                     </HStack>
                   </VStack>
                   <VStack>
@@ -318,11 +336,9 @@ export const App = () => {
                 <Button
                   w="full"
                   justifySelf="center"
+                  disabled={!transferData.to.endsWith("@gmail.com")}
                   borderWidth={1}
-                  onClick={() => {
-                    successToast("Success", "Your transaction was successful");
-                    onClose();
-                  }}
+                  onClick={submitTx}
                 >
                   Confirm
                 </Button>

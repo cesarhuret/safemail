@@ -16,7 +16,6 @@ import {
 import { providers, utils } from "ethers";
 import config from "./config.json";
 import { getSafeAddress } from "./hooks/predictSafe";
-import { parseEther } from "@ethersproject/units";
 
 const router = createBrowserRouter([
   {

@@ -103,6 +103,7 @@ export const Dashboard = () => {
 
   const getInternalTransactions = async () => {
     if (!walletAddress) return;
+    console.log(walletAddress)
     const response = await fetch(
       `https://api-goerli.etherscan.io/api?module=account&action=txlistinternal&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${config.etherScan.apiKey}`
     );
@@ -132,6 +133,8 @@ export const Dashboard = () => {
       setWalletAddress(await getSafeAddress(email));
     })();
   }, []);
+
+  console.log(internalTransactions)
 
   useEffect(() => {
     getBalance();

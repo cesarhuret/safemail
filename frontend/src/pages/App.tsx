@@ -214,9 +214,9 @@ export const App = () => {
                         ))}
                       </Select> */}
                       <Menu>
-                        <MenuButton as={Button}>
+                        <MenuButton as={Button} variant={'ghost'} alignItems={'center'} justifyContent={'center'}>
                           <Avatar
-                            size="xs"
+                            size={'xs'}
                             src={tokenChoice.image_url}
                             mr={2}
                           />

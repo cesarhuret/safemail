@@ -1,0 +1,32 @@
+{
+  "chains": [
+    {
+      "name": "Goerli",
+      "symbol": "ETH",
+      "id": "5",
+      "image_url": "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
+      "rpc_endpoint": "https://ethereum-goerli.publicnode.com"
+    },
+    {
+      "name": "Mumbai",
+      "symbol": "MATIC",
+      "id": "80001",
+      "image_url":"https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912",
+      "rpc_endpoint": "https://polygon-mumbai-bor.publicnode.com/"
+    },
+    {
+      "name": "Celo",
+      "symbol": "CELO",
+      "id": "44787",
+      "image_url":"https://assets.coingecko.com/coins/images/11090/small/InjXBNx9_400x400.jpg?1674707499",
+      "rpc_endpoint": "https://alfajores-forno.celo-testnet.org/"
+    },
+    {
+      "name": "Gnosis",
+      "symbol": "GNO",
+      "id": "10200",
+      "image_url":"https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png?1609402668",
+      "rpc_endpoint": "https://rpc.chiadochain.net/"
+    }
+  ]
+}

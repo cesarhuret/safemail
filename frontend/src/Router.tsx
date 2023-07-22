@@ -160,48 +160,6 @@ const router = createBrowserRouter([
                 };
             } else {
               localStorage.setItem("authMethod", JSON.stringify(authMethod));
-              localStorage.setItem("google", JSON.stringify(google));
-
-              
-              const signedEmail = await getSignedSafeAddress({
-                litNodeClient,
-                authSig,
-                accessToken: authMethod.accessToken,
-              });
-
-              console.log(signedEmail);
-
-              console.log(utils.verifyMessage(safe, signedEmail.signature));
-
-              console.log(chain)
-
-              const enableModule = await getSafeTransaction({
-                owner: config.signTxn.address,
-                to: safe,
-                value: utils.parseEther("0"),
-                data:
-                  "0x610b5925000000000000000000000000" +
-                  chain.module.slice(2),
-              });
-
-              console.log(enableModule);
-
-              const enableModuleTx = await getSignedTransaction({
-                litNodeClient,
-                provider,
-                authSig,
-                data: enableModule.data,
-                toAddress: safe,
-                pkp: {
-                  pkpEthAddress: config.signTxn.address,
-                  pkpPublicKey: config.signTxn.pkp,
-                },
-                accessToken: authMethod.accessToken,
-                email: google.email,
-                safeSignature: signedEmail.signature,
-              });
-
-              console.log(await enableModuleTx.result.wait(1));
 
               return {
                 safe,

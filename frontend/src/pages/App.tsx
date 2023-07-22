@@ -81,7 +81,6 @@ export const App = () => {
   const [modalIsLoading, setModalIsLoading] = useState<boolean>(false);
   const [search, setSearch] = useState<string>("");
   const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
-  const [receiver, setReceiver] = useState<string>("");
 
   const successToast = (Title: string, Desc: string) => {
     toast({

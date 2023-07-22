@@ -136,7 +136,7 @@ const router = createBrowserRouter([
             } else {
               localStorage.setItem("authMethod", JSON.stringify(authMethod));
               localStorage.setItem("google", JSON.stringify(google));
-  
+
               return {
                 safe,
                 email: google.email,

@@ -22,9 +22,10 @@
     "lit": {
         "apiKey": "ec8d2250312234b05e2746aa7e2ebd9d"
     },
-    "module": "0x30dC270fE73EBf7Bc788F230Be858365a5e10DA5",
+    "module": "0x366e224b1d229317447E241cD30bb75ec0ba7547",
     "factory": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2",
     "airStack": {
         "apiKey": "cf04259b075547098d87f31282243e58"
-    }
+    },
+    "gelato": "ehGvXRr8invWVeTAjkJkDBLT8bpB9QY2XqPqjXn4tes_"
 }

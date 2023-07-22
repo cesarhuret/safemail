@@ -175,9 +175,9 @@ export const App = () => {
                     </InputGroup>
                   </FormControl>
                   <Button>Send</Button>
-                  {/* <Button
+                  <Button
                   onClick={signIn}
-                >Sign In</Button> */}
+                >Sign In</Button>
                 </VStack>
               </VStack>
             </VStack>

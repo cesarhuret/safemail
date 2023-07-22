@@ -22,13 +22,14 @@ import {
   Image,
   Input,
   IconButton,
+  Avatar,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { providers, utils } from "ethers";
 import { useLoaderData, useNavigate } from "react-router-dom";
 import { shortenHash } from "../hooks";
 import { ProviderType } from "@lit-protocol/constants";
-import { GoogleIcon } from "../icons";
+import { GoogleIcon, ArrowRightIcon } from "../icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function NavBar() {
@@ -38,6 +39,7 @@ export function NavBar() {
   const [email, setEmail] = useState<string>(loader?.email || "");
   const [balance, setBalance] = useState<string>("0");
   const { isOpen, onOpen, onClose } = useDisclosure();
+  const [search, setSearch] = useState<string>("");
 
   const provider = new providers.JsonRpcProvider(
     "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
@@ -93,12 +95,8 @@ export function NavBar() {
               <Text>Sign in with Google</Text>
             </Button>
             <Text> or </Text>
-            <Button
-                variant="outline"
-                w="200px"
-                alignSelf="center"
-            >
-              <Image src="/metamask.svg" h="5" pr={2}/>
+            <Button variant="outline" w="200px" alignSelf="center">
+              <Image src="/metamask.svg" h="5" pr={2} />
               <Text>Connect Metamask</Text>
             </Button>
           </VStack>
@@ -107,12 +105,52 @@ export function NavBar() {
     </Modal>
   );
 
+  const searchAccount = () => {
+    if (search.endsWith("@gmail.com")) {
+      navigate("/" + search);
+    } else {
+      navigate("/" + search + "@gmail.com");
+    }
+  };
+
   return (
     <HStack borderRadius="md" p={2} w="full" justifyContent="space-between">
       <SignInModal />
       <HStack as={"button"} onClick={() => navigate("/")}>
         <Image src="/logo.png" w="10" borderRadius={7} />
-        <Text fontSize="xl" color="#12FF80" fontWeight="bold">SafeMail</Text>
+        <Text fontSize="xl" color="#12FF80" fontWeight="bold">
+          SafeMail
+        </Text>
+        {email !== "" && walletAddress ? (
+          <HStack ml={4}>
+            <Input
+              placeholder={"Search for a Google Account..."}
+              onChange={(e: any) => setSearch(e.target.value)}
+              onKeyDown={(e: any) => {
+                if (e.key === "Enter") {
+                  searchAccount();
+                }
+              }}
+            />
+            <IconButton
+              aria-label="search"
+              icon={<ArrowRightIcon size={20} />}
+              onClick={searchAccount}
+            />
+            {
+              search ? (
+                <Avatar
+                  size="sm"
+                  src={`https://noun-api.com/beta/pfp?name=${search}@gmail.com`}
+                />
+              ) : (
+                <></>
+              )
+            }
+          </HStack>
+        ) : (
+          <></>
+        )}
       </HStack>
       <HStack>
         <Text p="7px" borderRadius={6} borderWidth={1}>
@@ -136,7 +174,9 @@ export function NavBar() {
                   onClick={() => {
                     navigate("/" + loader?.email);
                   }}
-                >{email}</MenuItem>
+                >
+                  {email}
+                </MenuItem>
                 <MenuItem>{shortenHash(walletAddress)}</MenuItem>
                 <MenuDivider />
                 <MenuItem
@@ -146,7 +186,9 @@ export function NavBar() {
                     localStorage.removeItem("authMethod");
                     navigate(0);
                   }}
-                >Sign Out</MenuItem>
+                >
+                  Sign Out
+                </MenuItem>
               </MenuList>
             </Menu>
           ) : walletAddress ? (
@@ -155,7 +197,7 @@ export function NavBar() {
                 {shortenHash(walletAddress)}
                 <ChevronDownIcon />
               </MenuButton>
-              <MenuList bg={"#050505"}> 
+              <MenuList bg={"#050505"}>
                 <MenuItem bg={"#050505"}>{shortenHash(walletAddress)}</MenuItem>
                 <MenuDivider />
                 <MenuItem bg={"#050505"}>Sign in with Google</MenuItem>

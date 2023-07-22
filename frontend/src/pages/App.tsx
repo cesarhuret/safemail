@@ -226,16 +226,16 @@ export const App = () => {
                     </NumberInput>
                   </InputGroup>
                 </FormControl>
-                <Button 
+                <Button
                   w="full"
                   mt={5}
                   borderWidth={1}
-                  bg={
-                    `linear-gradient(#050505, #050505) padding-box, 
-                    linear-gradient(135deg, #000000, #36efc055) border-box`
-                  }
+                  bg={`linear-gradient(#050505, #050505) padding-box, 
+                    linear-gradient(135deg, #000000, #36efc055) border-box`}
                   onClick={onOpen}
-                >Send</Button>
+                >
+                  Send
+                </Button>
               </VStack>
             </VStack>
           </VStack>

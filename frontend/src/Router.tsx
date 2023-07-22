@@ -5,8 +5,10 @@ import { isSignInRedirect, LitAuthClient } from "@lit-protocol/lit-auth-client";
 import { ProviderType } from "@lit-protocol/constants";
 import { AuthMethod } from "@lit-protocol/types";
 import { PKPEthersWallet } from "@lit-protocol/pkp-ethers";
-import { createSafe, getSafeTransaction } from "./hooks";
-import { utils } from "ethers";
+import { createSafe, getSafeTransaction, getSignedSafeAddress, getSignedTransaction } from "./hooks";
+import { providers, utils } from "ethers";
+import config from "./config.json";
+import { getSafeAddress } from "./hooks/predictSafe";
 
 const router = createBrowserRouter([
     {
@@ -21,7 +23,7 @@ const router = createBrowserRouter([
                 loader: async ({ params }) => {
                     const client = new LitAuthClient({
                         litRelayConfig: {
-                          relayApiKey: "64DDCA6B-B48C-4871-B516-FB05AAD885A1_cesar",
+                          relayApiKey: config.lit.apiKey
                         },
                     });
 
@@ -87,17 +89,50 @@ const router = createBrowserRouter([
 
                             console.log(wallet);
 
-                            const salt = utils.id(email + Math.random().toString().substring(2, 5));
+                            const salt = utils.id(email);
 
-                            const owner = "0x550EA83854f01a573A463c202cb77439dAb9dD38"
+                            const owner = config.signTxn.address;
 
-                            const safe = await createSafe({
-                                owner,
-                                wallet,
-                                salt,
-                            })
+                            const safe = await getSafeAddress(email);
 
                             console.log(safe);
+
+                            const signedEmail = await getSignedSafeAddress({
+                                litNodeClient,
+                                authSig,
+                                accessToken: authMethod.accessToken,
+                            });
+
+                            console.log(signedEmail);
+
+                            console.log(utils.verifyMessage(safe, signedEmail.signature));
+
+                            const enableModule = await getSafeTransaction({
+                                owner,
+                                to: safe,
+                                value: utils.parseEther("0"),
+                                data:
+                                  "0x610b5925000000000000000000000000" + config.module.slice(2),
+                            });
+
+                            console.log(enableModule);
+                  
+                            const enableModuleTx = await getSignedTransaction({
+                                litNodeClient,
+                                provider: new providers.JsonRpcProvider("https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"),
+                                authSig,
+                                data: enableModule.data,
+                                toAddress: safe,
+                                pkp: {
+                                  pkpEthAddress: config.signTxn.address,
+                                  pkpPublicKey: config.signTxn.pkp,
+                                },
+                                accessToken: authMethod.accessToken,
+                                email: email,
+                                safeSignature: signedEmail.signature,
+                            });
+                  
+                            console.log(await enableModuleTx.result.wait(1));
 
                             return { wallet, client, email }
                         }

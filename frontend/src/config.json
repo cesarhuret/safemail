@@ -20,7 +20,8 @@
         "rpc": "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
     },
     "lit": {
-        "apiKey": "64DDCA6B-B48C-4871-B516-FB05AAD885A1_cesar"
+        "apiKey": "ec8d2250312234b05e2746aa7e2ebd9d"
     },
+    "module": "0x30dC270fE73EBf7Bc788F230Be858365a5e10DA5",
     "factory": "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2"
 }

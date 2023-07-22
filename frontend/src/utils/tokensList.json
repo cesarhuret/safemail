@@ -1,0 +1,60 @@
+{
+  "chain": "Mubai",
+  "id": "80001",
+  "tokens": [
+    {
+      "name": "APE Coin",
+      "symbol": "APE",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/24383/small/apecoin.jpg?1647476455"
+    },
+    {
+      "name": "Matic",
+      "symbol": "MATIC",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912"
+    },
+    {
+      "name": "USD Coin",
+      "symbol": "USDC",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png?1547042389"
+    },
+    {
+      "name": "USD Tether",
+      "symbol": "USDT",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/325/small/Tether.png?1668148663"
+    },
+    {
+      "name": "Wrapped Ether",
+      "symbol": "WETH",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/2518/small/weth.png?1628852295"
+    },
+    {
+      "name": "Wrapped Bitcoin",
+      "symbol": "WBTC",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/7598/small/wrapped_bitcoin_wbtc.png?1548822744"
+    },
+    {
+      "name": "Gnosis",
+      "symbol": "GNO",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/662/small/logo_square_simple_300px.png?1609402668"
+    },
+    {
+      "name": "Celo",
+      "symbol": "CELO",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/11090/small/InjXBNx9_400x400.jpg?1674707499"
+    },
+    {
+      "name": "Uniswap",
+      "symbol": "UNI",
+      "address": "0xcFA35f6483130936a30F8bb172C0515a9Ac8189c",
+      "image_url": "https://assets.coingecko.com/coins/images/12504/small/uni.jpg?1687143398"
+    }
+  ]
+}

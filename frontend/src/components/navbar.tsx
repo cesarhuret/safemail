@@ -27,6 +27,8 @@ import { useEffect, useState } from "react";
 import { providers, utils } from "ethers";
 import { useNavigate } from "react-router-dom";
 import { shortenHash } from "../hooks";
+import { ProviderType } from "@lit-protocol/constants";
+import { GoogleIcon } from "../icons";
 
 export function NavBar() {
   const navigate = useNavigate();
@@ -58,6 +60,28 @@ export function NavBar() {
     getBalance();
   }, [walletAddress]);
 
+  const signIn = async () => {
+    const client = new LitAuthClient({
+      litRelayConfig: {
+        relayApiKey: "ec8d2250312234b05e2746aa7e2ebd9d",
+      },
+    });
+
+    client.initProvider(ProviderType.Google, {
+      redirectUri: "http://localhost:3000/ok",
+    });
+
+    const litNodeClient = new LitNodeClient({
+      litNetwork: "serrano",
+      debug: false,
+    });
+    await litNodeClient.connect();
+
+    const litProvider: any = client.getProvider(ProviderType.Google);
+
+    if (litProvider != null) await litProvider.signIn();
+  };
+
   const SignInModal = () => (
     <Modal isCentered={true} size="xs" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
@@ -68,7 +92,9 @@ export function NavBar() {
             <Button
                 variant="outline"
                 w="200px"
-                alignSelf="center"
+                alignSelf="center" 
+                onClick={signIn}
+                leftIcon={<GoogleIcon size={20}/>}
             >
               <Text>Sign in with google</Text>
             </Button>

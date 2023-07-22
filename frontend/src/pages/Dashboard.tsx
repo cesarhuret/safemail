@@ -45,7 +45,7 @@ export const Dashboard = () => {
   const query = `
   query tokens($address: Identity!) {
     erc20: TokenBalances(
-      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC20]}}, limit: 10, blockchain: goerli}
+      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC20]}}, limit: 10, blockchain: ethereum}
     ) {
       data:TokenBalance {
         amount
@@ -92,30 +92,10 @@ export const Dashboard = () => {
         }
       }
     }
-    poap: TokenBalances(
-      input: {filter: {owner: {_in: [$address]}, tokenAddress: {_eq: "0x22C1f6050E56d2876009903609a2cC3fEf83B415"}}, limit: 10, blockchain: ethereum}
-    ) {
-      data:TokenBalance {
-        amount
-        tokenAddress
-        tokenId
-        tokenType
-        token {
-          name
-          symbol
-        }
-        tokenNfts {
-          metaData {
-            name
-          }
-          tokenURI
-        }
-      }
-    }
   }`;
 
   const variables = {
-    address: walletAddress,
+    address: mockData.address,
   };
 
   const { data, loading, error } = useQuery(query, variables, { cache: false });
@@ -224,8 +204,9 @@ export const Dashboard = () => {
                           <Flex
                             key={token.tokenId}
                             p={4}
-                            border="2px solid white"
                             borderRadius="md"
+                            bg="black"
+                            justifyContent="space-between"
                             w="100%"
                           >
                             <Text>{token.token.symbol}</Text>
@@ -243,7 +224,7 @@ export const Dashboard = () => {
                 <TabPanel>
                   <Skeleton isLoaded={!loading}>
                     {nftList ? (
-                      <Grid templateColumns="repeate(3, 1fr)" gap={2}>
+                      <Grid templateColumns="repeat(3, 1fr)" gap={2}>
                         {nftList.map((nft: any) => {
                           return (
                             <Container

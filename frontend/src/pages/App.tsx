@@ -26,12 +26,23 @@ import {
   NumberInputStepper,
   NumberIncrementStepper,
   NumberDecrementStepper,
+  Modal,
+  ModalOverlay,
+  ModalContent,
+  ModalHeader,
+  ModalCloseButton,
+  useDisclosure,
+  ModalBody,
+  Stack,
+  Image,
+  Tooltip,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
 import { ProviderType } from "@lit-protocol/constants";
-
+import { ArrowRightIcon } from "../icons";
+import tokensList from "../utils/tokensList.json"
 interface TransferData {
   to: string;
   amount: number;
@@ -46,6 +57,9 @@ export const App = () => {
     amount: 0,
   });
   const toast = useToast();
+  const { isOpen, onOpen, onClose } = useDisclosure();
+  const [modalIsLoading, setModalIsLoading] = useState<boolean>(false);
+  const [tokenChoice, setTokenChoice] = useState<string>("ETH");
 
   const successToast = (Title: string, Desc: string) => {
     toast({
@@ -65,28 +79,6 @@ export const App = () => {
       duration: 9000,
       isClosable: true,
     });
-  };
-
-  const signIn = async () => {
-    const client = new LitAuthClient({
-      litRelayConfig: {
-        relayApiKey: "ec8d2250312234b05e2746aa7e2ebd9d",
-      },
-    });
-
-    client.initProvider(ProviderType.Google, {
-      redirectUri: "http://localhost:3000/ok",
-    });
-
-    const litNodeClient = new LitNodeClient({
-      litNetwork: "serrano",
-      debug: false,
-    });
-    await litNodeClient.connect();
-
-    const litProvider: any = client.getProvider(ProviderType.Google);
-
-    if (litProvider != null) await litProvider.signIn();
   };
 
   useEffect(() => {
@@ -132,6 +124,7 @@ export const App = () => {
                       maxW="250px"
                       type="email"
                       variant="outline"
+                      placeholder="Type reciever email"
                       onChange={(e) => {
                         setTransferData({
                           ...transferData,
@@ -150,15 +143,20 @@ export const App = () => {
                           colorScheme="black"
                           w="100px"
                           bg="#050505"
+                          onChange={(e) => {
+                            setTokenChoice(JSON.parse(e.target.value));
+                          }}
                         >
-                          <option value="ether">ETH</option>
-                          <option value="lit">LIT</option>
+                          {tokensList.tokens.map((token:any, index:number) => (
+                            <option key={index} value={JSON.stringify(token)}>{token.symbol}</option>
+                          ))}
                         </Select>
                       </InputLeftAddon>
                       <NumberInput
                         w="100%"
                         min={0}
                         variant="outline"
+                        placeholder="Amount to be sent"
                         onChange={(e) => {
                           setTransferData({
                             ...transferData,
@@ -174,10 +172,7 @@ export const App = () => {
                       </NumberInput>
                     </InputGroup>
                   </FormControl>
-                  <Button>Send</Button>
-                  <Button
-                  onClick={signIn}
-                >Sign In</Button>
+                  <Button onClick={onOpen}>Send</Button>
                 </VStack>
               </VStack>
             </VStack>
@@ -190,6 +185,72 @@ export const App = () => {
           )}
         </Box>
       )}
+
+      <Modal size="lg" isOpen={isOpen} isCentered={true} onClose={onClose}>
+        <ModalOverlay bg="blackAlpha.900" />
+        <ModalContent mx={4} p={10}>
+          <ModalCloseButton />
+          <ModalHeader>Transaction Details</ModalHeader>
+          <ModalBody>
+            {modalIsLoading ? (
+              <Stack
+                w="full"
+                h="25vh"
+                justifyContent="center"
+                alignItems="center"
+              >
+                <Spinner size="xl" />
+              </Stack>
+            ) : (
+              <>
+                <HStack
+                  alignItems="center"
+                  justifyContent="space-evenly"
+                  h="25vh"
+                >
+                  <VStack>
+                    <Image
+                      src={`https://noun-api.com/beta/pfp?name=${email}`}
+                      borderRadius="10px"
+                      w={20}
+                    />
+                    <Tooltip>
+                      <Text>{email.replace("@gmail.com", "")}</Text>
+                    </Tooltip>
+                  </VStack>
+                  <VStack>
+                    <ArrowRightIcon size={20} />
+                    <HStack>
+                      <Text>{transferData.amount}</Text>
+                    </HStack>
+                  </VStack>
+                  <VStack>
+                    <Image
+                      src={`https://noun-api.com/beta/pfp?name=${transferData.to}`}
+                      borderRadius="10px"
+                      w={20}
+                    />
+                    <Tooltip>
+                      <Text>{transferData.to.replace("@gmail.com", "")}</Text>
+                    </Tooltip>
+                  </VStack>
+                </HStack>
+                <Button
+                  w="full"
+                  justifySelf="center"
+                  borderWidth={1}
+                  onClick={() => {
+                    successToast("Success", "Your transaction was successful");
+                    onClose();
+                  }}
+                >
+                  Confirm
+                </Button>
+              </>
+            )}
+          </ModalBody>
+        </ModalContent>
+      </Modal>
     </>
   );
 };

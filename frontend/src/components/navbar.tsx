@@ -131,7 +131,7 @@ export function NavBar() {
               onKeyDown={(e: any) => {
                 if (e.key === "Enter") {
                   searchAccount();
-                  console.log()
+                  console.log();
                 }
               }}
             />
@@ -140,14 +140,14 @@ export function NavBar() {
               icon={<ArrowRightIcon size={20} />}
               onClick={searchAccount}
             />
-            {
-              search ? (
-                <Avatar
-                  size="sm"
-                  src={ search.endsWith("@gmail.com") ? `https://noun-api.com/beta/pfp?name=${search}` : `https://noun-api.com/beta/pfp?name=${search}@gmail.com`}
-                />
-              ) : null
-            }
+            {search ? (
+              <Avatar
+                size="sm"
+                src={`https://noun-api.com/beta/pfp?name=${search}@gmail.com`}
+              />
+            ) : (
+              <></>
+            )}
           </HStack>
         ) : (
           <></>
@@ -172,15 +172,26 @@ export function NavBar() {
               </MenuButton>
               <MenuList bg={"#050505"}>
                 <MenuItem
+                  _hover={{ bg: "gray.800" }}
+                  _focus={{ bg: "" }}
+                  bg={"#050505"}
                   onClick={() => {
                     navigate("/" + loader?.email);
                   }}
                 >
                   {email}
                 </MenuItem>
-                <MenuItem>{shortenHash(walletAddress)}</MenuItem>
+                <MenuItem
+                  _hover={{ bg: "gray.800" }}
+                  _focus={{ bg: "" }}
+                  bg={"#050505"}
+                >
+                  {shortenHash(walletAddress)}
+                </MenuItem>
                 <MenuDivider />
                 <MenuItem
+                  _hover={{ bg: "gray.800" }}
+                  _focus={{ bg: "" }}
                   bg={"#050505"}
                   onClick={() => {
                     localStorage.removeItem("google");

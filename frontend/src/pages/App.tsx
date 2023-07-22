@@ -39,6 +39,7 @@ import {
   MenuItem,
   MenuDivider,
   IconButton,
+  Avatar,
 } from "@chakra-ui/react";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
@@ -146,7 +147,6 @@ export const App = () => {
     }, 2000);
   };
 
-
   const searchAccount = () => {
     if (search.endsWith("@gmail.com")) {
       navigate("/" + search);
@@ -197,7 +197,7 @@ export const App = () => {
                   <FormLabel>Amount</FormLabel>
                   <InputGroup variant="unstyled">
                     <InputLeftAddon bg="#050505" p={0}>
-                      <Select
+                      {/* <Select
                         placeholder=""
                         border=""
                         colorScheme="black"
@@ -212,7 +212,30 @@ export const App = () => {
                             {token.symbol}
                           </option>
                         ))}
-                      </Select>
+                      </Select> */}
+                      <Menu>
+                        <MenuButton as={Button}>
+                          <Avatar
+                            size="xs"
+                            src={tokenChoice.image_url}
+                            mr={2}
+                          />
+                          {tokenChoice.symbol}
+                        </MenuButton>
+                        <MenuList minW="min">
+                          {tokens.tokens.map((token: any, index: number) => (
+                            <MenuItem
+                              key={index}
+                              onClick={() => {
+                                setTokenChoice(token);
+                              }}
+                            >
+                              <Avatar size="xs" src={token.image_url} mr={2} />
+                              {token.symbol}
+                            </MenuItem>
+                          ))}
+                        </MenuList>
+                      </Menu>
                     </InputLeftAddon>
                     <NumberInput
                       w="100%"

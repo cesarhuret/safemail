@@ -188,7 +188,6 @@ export const App = () => {
               boxShadow="16px 16px 35px #18fc8455, -16px -16px 35px #36efc055"
             >
               <Heading size="lg">Send Funds</Heading>
-              <Button onClick={()=>{console.log(transferData)}}>test</Button>
               <VStack w="100%" alignItems="start" gap={4}>
                 <FormControl w="250px">
                   <FormLabel>Email</FormLabel>

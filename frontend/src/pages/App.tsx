@@ -40,6 +40,7 @@ import {
   MenuDivider,
   IconButton,
   Avatar,
+  InputRightAddon
 } from "@chakra-ui/react";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
@@ -85,7 +86,7 @@ export const App = () => {
       description: desc,
       status: "success",
       duration: 9000,
-      isClosable: true
+      isClosable: true,
     });
   };
 
@@ -111,15 +112,15 @@ export const App = () => {
       utils.parseEther(transferData.amount.toString()),
     ]);
 
-    console.log(toSafeAddress)
-    console.log(transferData.amount.toString())
-    console.log(encodedData)
-    console.log(tokenChoice)
+    console.log(toSafeAddress);
+    console.log(transferData.amount.toString());
+    console.log(encodedData);
+    console.log(tokenChoice);
 
     const testTx = await execWithLit(config.module, config.factory, {
       from: loaderData?.safe,
       to: tokenChoice.address, // erc20 contract address goes here
-      value: '0',
+      value: "0",
       data: encodedData,
     });
 
@@ -127,13 +128,17 @@ export const App = () => {
     let txHash;
 
     let interval = setInterval(async () => {
-      
-      const res = await fetch('https://api.gelato.digital/tasks/status/' + testTx.taskId)
+      const res = await fetch(
+        "https://api.gelato.digital/tasks/status/" + testTx.taskId
+      );
       const result = await res.json();
-      
+
       console.log(result);
 
-      if(result.task?.transactionHash && result.task?.taskState == "ExecSuccess") {
+      if (
+        result.task?.transactionHash &&
+        result.task?.taskState == "ExecSuccess"
+      ) {
         txHash = result.task?.transactionHash;
         clearInterval(interval);
         setModalIsLoading(false);
@@ -154,6 +159,12 @@ export const App = () => {
       navigate("/" + search + "@gmail.com");
     }
   };
+
+  useEffect(() => {
+    if (!((transferData.to).endsWith("@gmail.com")) && transferData.to.length > 0) {
+      setTransferData({...transferData, to: transferData.to + "@gmail.com"})
+    }
+  }, [transferData.to])
 
   return (
     <>
@@ -177,21 +188,29 @@ export const App = () => {
               boxShadow="16px 16px 35px #18fc8455, -16px -16px 35px #36efc055"
             >
               <Heading size="lg">Send Funds</Heading>
+              <Button onClick={()=>{console.log(transferData)}}>test</Button>
               <VStack w="100%" alignItems="start" gap={4}>
                 <FormControl w="250px">
                   <FormLabel>Email</FormLabel>
-                  <Input
-                    maxW="250px"
-                    type="email"
-                    variant="outline"
-                    placeholder="Type receiver email"
-                    onChange={(e) => {
-                      setTransferData({
-                        ...transferData,
-                        to: e.target.value,
-                      });
-                    }}
-                  />
+                  <InputGroup size="sm">
+                    <Input
+                      maxW="250px"
+                      type="email"
+                      variant="outline"
+                      placeholder="Type receiver email"
+                      onChange={(e) => {
+                        setTransferData({
+                          ...transferData,
+                          to: e.target.value,
+                        });
+                      }}
+                    />
+                    <InputRightAddon
+                      fontSize="xs"
+                      children="@gmail.com"
+                      bg="#212121"
+                    />
+                  </InputGroup>
                 </FormControl>
                 <FormControl w="250px">
                   <FormLabel>Amount</FormLabel>

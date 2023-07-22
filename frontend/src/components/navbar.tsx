@@ -31,6 +31,7 @@ import { shortenHash } from "../hooks";
 import { ProviderType } from "@lit-protocol/constants";
 import { GoogleIcon, ArrowRightIcon } from "../icons";
 import { ChevronDownIcon } from "@chakra-ui/icons";
+import chainsList from "../utils/chain.json";
 
 export function NavBar() {
   const navigate = useNavigate();
@@ -40,6 +41,7 @@ export function NavBar() {
   const [balance, setBalance] = useState<string>("0");
   const { isOpen, onOpen, onClose } = useDisclosure();
   const [search, setSearch] = useState<string>("");
+  const [chain, setChain] = useState<any>(JSON.parse(localStorage.getItem("chain") as string) || chainsList.chains[0]);
 
   const provider = new providers.JsonRpcProvider(
     "https://eth-goerli.g.alchemy.com/v2/75qiyn1_EpxCn93X5tD7yEtmcXUM_Udw"
@@ -153,9 +155,24 @@ export function NavBar() {
         )}
       </HStack>
       <HStack>
-        <Text p="7px" borderRadius={6} borderWidth={1}>
-          {balance} ETH
-        </Text>
+        <Menu>
+          <MenuButton border="1px solid #393838" p={2} borderRadius="10px">
+            <Avatar size="xs" src={chain.image_url} name={chain.name} mr={4}/>
+            {chain.name}
+            <ChevronDownIcon />
+          </MenuButton>
+          <MenuList bg="#050505" minW="min">
+            {chainsList.chains.map((chain: any, index: number) => (
+              <MenuItem bg="#050505" _hover={{bg:"gray.800"}} onClick={()=>{
+                setChain(chainsList.chains[index])
+                localStorage.setItem("chain", JSON.stringify(chainsList.chains[index]))
+              }}>
+                <Avatar size="xs" src={chain.image_url} name={chain.name} mr={4}/>
+                {chain.name}
+              </MenuItem>
+            ))}
+          </MenuList>
+        </Menu>
         <Box>
           {email !== "" ? (
             <Menu>
@@ -167,6 +184,9 @@ export function NavBar() {
                     w={5}
                   />
                   <Text>{email?.replace("@gmail.com", "")}</Text>
+                  <Text p="7px" borderRadius={6} borderWidth={1}>
+                    {balance} ETH
+                  </Text>
                 </Flex>
               </MenuButton>
               <MenuList bg={"#050505"}>

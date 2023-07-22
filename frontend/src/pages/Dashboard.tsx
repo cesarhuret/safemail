@@ -103,13 +103,13 @@ export const Dashboard = () => {
 
   const getInternalTransactions = async () => {
     if (!walletAddress) return;
-    console.log(walletAddress)
-    const response = await fetch(
-      `https://api-goerli.etherscan.io/api?module=account&action=txlistinternal&address=${walletAddress}&startblock=0&endblock=99999999&page=1&offset=10&sort=asc&apikey=${config.etherScan.apiKey}`
-    );
-    const data = await response.json();
-    console.log(data.result);
-    setInternalTransactions(data.result);
+    await fetch(
+      `https://safe-transaction-goerli.safe.global/api/v1/safes/${walletAddress}/transfers/`
+    ).then(async (res) => {
+      const data = await res.json();
+      console.log(data.results)
+      setInternalTransactions(data.results);
+    });
   };
 
   const getBalance = async () => {
@@ -294,7 +294,7 @@ export const Dashboard = () => {
                                 ).toFixed(2)}
                               </Text>
                               <Link
-                                href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`}
+                                href={`https://goerli.etherscan.io//tx/${internalTransaction.transactionHash}`}
                                 isExternal
                               >
                                 <Button>
@@ -309,8 +309,8 @@ export const Dashboard = () => {
                       <Text>No transactions found</Text>
                     )}
                   </Skeleton>
-                  <Skeleton isLoaded={!loading} h="20px" my={2} />
-                  <Skeleton isLoaded={!loading} h="20px" my={2} />
+                  <Skeleton isLoaded={!loading} my={2} />
+                  <Skeleton isLoaded={!loading} my={2} />
                 </TabPanel>
               </TabPanels>
             </Tabs>

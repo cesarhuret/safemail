@@ -130,7 +130,7 @@ export const Dashboard = () => {
   useEffect(() => {
     (async () => {
       setWalletAddress(await getSafeAddress(email));
-    })()
+    })();
   }, []);
 
   useEffect(() => {
@@ -164,7 +164,12 @@ export const Dashboard = () => {
             name={email}
             src={`https://noun-api.com/beta/pfp?name=${email}`}
           />
-          <Container bg="#050505" borderRadius={15} p={4} boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455">
+          <Container
+            bg="#050505"
+            borderRadius={15}
+            p={4}
+            boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455"
+          >
             <VStack gap={4}>
               <Flex alignItems="center" gap={2}>
                 <MailIcon size={20} />
@@ -186,12 +191,23 @@ export const Dashboard = () => {
               </VStack>
             </VStack>
           </Container>
-          <Container bg="#050505" p={4} borderRadius={15} boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455">
+          <Container
+            bg="#050505"
+            p={4}
+            borderRadius={15}
+            boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455"
+          >
             <Tabs>
               <TabList>
-                <Tab w="50%" color="#95ff91cc">Tokens</Tab>
-                <Tab w="50%" color="#95ff91cc">NFTs</Tab>
-                <Tab w="50%" color="#95ff91cc">Transactions</Tab>
+                <Tab w="50%" color="#95ff91cc">
+                  Tokens
+                </Tab>
+                <Tab w="50%" color="#95ff91cc">
+                  NFTs
+                </Tab>
+                <Tab w="50%" color="#95ff91cc">
+                  Transactions
+                </Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>
@@ -274,14 +290,14 @@ export const Dashboard = () => {
                                   )
                                 ).toFixed(2)}
                               </Text>
-                              <Button>
-                                <Link
-                                  href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`}
-                                  isExternal
-                                >
+                              <Link
+                                href={`https://goerli.etherscan.io//tx/${internalTransaction.hash}`}
+                                isExternal
+                              >
+                                <Button>
                                   <ExtrenalLinkIcon size={15} />
-                                </Link>
-                              </Button>
+                                </Button>
+                              </Link>
                             </Flex>
                           )
                         )}

@@ -83,11 +83,11 @@ export function NavBar() {
         <ModalBody mx={0} my={20}>
           <VStack gap={5}>
             <Button
-                variant="outline"
-                w="200px"
-                alignSelf="center" 
-                onClick={signIn}
-                leftIcon={<GoogleIcon size={20}/>}
+              variant="outline"
+              w="200px"
+              alignSelf="center"
+              onClick={signIn}
+              leftIcon={<GoogleIcon size={20} />}
             >
               <Text>Sign in with Google</Text>
             </Button>
@@ -114,13 +114,20 @@ export function NavBar() {
       </HStack>
       <HStack>
         <Text p="7px" borderRadius={6} borderWidth={1}>
-            {balance} ETH
+          {balance} ETH
         </Text>
         <Box>
           {email !== "" ? (
             <Menu>
               <MenuButton as={Button}>
-                <Text>{email?.replace("@gmail.com", "")}</Text>
+                <Flex gap={2} alignItems="center">
+                  <Image
+                    src={`https://noun-api.com/beta/pfp?name=${email}`}
+                    borderRadius="10px"
+                    w={5}
+                  />
+                  <Text>{email?.replace("@gmail.com", "")}</Text>
+                </Flex>
               </MenuButton>
               <MenuList>
                 <MenuItem

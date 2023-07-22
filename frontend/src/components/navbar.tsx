@@ -116,11 +116,13 @@ export function NavBar() {
   return (
     <HStack borderRadius="md" p={2} w="full" justifyContent="space-between">
       <SignInModal />
-      <HStack as={"button"} onClick={() => navigate("/")}>
-        <Image src="/logo.png" w="10" borderRadius={7} />
-        <Text fontSize="xl" color="#12FF80" fontWeight="bold">
-          SafeMail
-        </Text>
+      <HStack>
+        <HStack as={"button"} onClick={() => navigate("/")}>
+          <Image src="/logo.png" w="10" borderRadius={7} />
+          <Text fontSize="xl" color="#12FF80" fontWeight="bold">
+            SafeMail
+          </Text>
+        </HStack>
         {email !== "" && walletAddress ? (
           <HStack ml={4}>
             <Input
@@ -129,11 +131,12 @@ export function NavBar() {
               onKeyDown={(e: any) => {
                 if (e.key === "Enter") {
                   searchAccount();
+                  console.log()
                 }
               }}
             />
             <IconButton
-              aria-label="search"
+              aria-label="navSearch"
               icon={<ArrowRightIcon size={20} />}
               onClick={searchAccount}
             />

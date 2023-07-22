@@ -3,6 +3,7 @@
     {
       "name": "Goerli",
       "gnosisName": "goerli",
+      "litName": "goerli",
       "symbol": "ETH",
       "id": 5,
       "image_url": "https://assets.coingecko.com/coins/images/279/small/ethereum.png?1595348880",
@@ -14,6 +15,7 @@
     {
       "name": "Polygon",
       "gnosisName": "polygon",
+      "litName": "polygon",
       "symbol": "MATIC",
       "id": 137,
       "image_url":"https://assets.coingecko.com/coins/images/4713/small/matic-token-icon.png?1624446912",
@@ -25,16 +27,18 @@
     {
       "name": "Celo",
       "gnosisName": "celo",
+      "litName": "celo",
       "symbol": "CELO",
       "id": 42220,
       "image_url":"https://assets.coingecko.com/coins/images/11090/small/InjXBNx9_400x400.jpg?1674707499",
-      "rpc_endpoint": "https://rpc.ankr.com/celo",
+      "rpc_endpoint": "https://forno.celo.org",
       "module": "0xFa6b8d14beb8D3D74805C410EeEe67234fe6AB13",
       "gelato": "qw6_32acbe_4KOfGF9Ph1sOWWFACCx07vktRg5DKOIA_",
       "gasPrice": "6"
     },
     {
       "name": "Gnosis",
+      "litName": "xdai",
       "gnosisName": "gnosis-chain",
       "symbol": "xDai",
       "id": 100,

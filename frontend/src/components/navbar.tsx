@@ -82,7 +82,7 @@ export function NavBar() {
   };
 
   const SignInModal = () => (
-    <Modal isCentered={true} size="xs" isOpen={isOpen} onClose={onClose}>
+    <Modal isCentered={true} size="md" isOpen={isOpen} onClose={onClose}>
       <ModalOverlay />
       <ModalContent>
         <ModalCloseButton />
@@ -96,11 +96,6 @@ export function NavBar() {
               leftIcon={<GoogleIcon size={20} />}
             >
               <Text>Sign in with Google</Text>
-            </Button>
-            <Text> or </Text>
-            <Button variant="outline" w="200px" alignSelf="center">
-              <Image src="/metamask.svg" h="5" pr={2} />
-              <Text>Connect Metamask</Text>
             </Button>
           </VStack>
         </ModalBody>

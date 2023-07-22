@@ -9,7 +9,7 @@ export const getSignedSafeAddress = async ({litNodeClient, authSig, accessToken}
         ipfsId: config.signEmail.cid,
         authSig,
         jsParams: {
-          chain: chain.gnosisName,
+          chain: chain.litName,
           access_token: accessToken,
           publicKey: config.signEmail.pkp,
           pkp: {
@@ -19,6 +19,8 @@ export const getSignedSafeAddress = async ({litNodeClient, authSig, accessToken}
           owner: config.signTxn.address,
         },
     });
+
+    console.log(response)
 
     console.log("signatures: ", signatures);
     const sig = signatures.sig1;

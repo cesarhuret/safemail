@@ -85,7 +85,7 @@ const router = createBrowserRouter([
             const code = await provider.getCode(safe);
             console.log(code)
             if (code == "0x") {
-                if(chain.gnosisName == 'celo') {
+                if(chain.litName == 'celo') {
 
                   console.log(authSig, pkp, chain)
 

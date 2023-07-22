@@ -40,7 +40,7 @@ import {
   MenuDivider,
   IconButton,
   Avatar,
-  InputRightAddon
+  InputRightAddon,
 } from "@chakra-ui/react";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
@@ -53,6 +53,7 @@ import { utils } from "ethers";
 import ERC20ABI from "../utils/ERC20.json";
 import tokens from "../utils/tokens.json";
 import { BsArrowRight } from "react-icons/bs";
+import { PKPEthersWallet } from "@lit-protocol/pkp-ethers";
 
 interface TransferData {
   to: string;
@@ -80,7 +81,7 @@ export const App = () => {
   const [search, setSearch] = useState<string>("");
   const [tokenChoice, setTokenChoice] = useState<any>(tokens.tokens[0]);
 
-  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+  const chain = JSON.parse(localStorage.getItem("chain") || "{}");
 
   const successToast = (title: string, desc: string, hash: string) => {
     toast({
@@ -119,46 +120,31 @@ export const App = () => {
     console.log(encodedData);
     console.log(tokenChoice);
 
-    const testTx = await execWithLit(chain.module, config.factory, {
-      from: loaderData?.safe,
-      to: tokenChoice[chain.gnosisName], // erc20 contract address goes here
-      value: "0",
-      data: encodedData,
-    });
-
-    console.log(testTx);
-    let txHash;
-
-    let interval = setInterval(async () => {
-      const res = await fetch(
-        "https://api.gelato.digital/tasks/status/" + testTx.taskId
-      );
-      const result = await res.json();
-
-      console.log(result);
-
-      if (
-        result.task?.transactionHash &&
-        result.task?.taskState == "ExecSuccess"
-      ) {
-        txHash = result.task?.transactionHash;
-        clearInterval(interval);
-        setModalIsLoading(false);
-        onClose();
-        successToast(
-          "Transaction Confirmed",
-          `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`,
-          txHash
-        );
-      } else if(result.task?.taskState == "Cancelled") {
-        clearInterval(interval);
-        onClose();
-        errorToast(
-          "Transaction Failed",
-          `Transaction was cancelled.`
-        );
+    const result: any = await execWithLit(
+      chain.module,
+      config.factory,
+      {
+        from: loaderData?.safe,
+        to: tokenChoice[chain.gnosisName], // erc20 contract address goes here
+        value: "0",
+        data: encodedData,
       }
-    }, 2000);
+    );
+
+    console.log(result);
+
+    if(result.success) {
+      setModalIsLoading(false);
+      onClose();
+      successToast(
+        "Transaction Confirmed",
+        `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`,
+        result.txHash
+      );
+    } else {
+      onClose();
+      errorToast("Transaction Failed", `Transaction was cancelled.`);
+    }
   };
 
   const searchAccount = () => {
@@ -170,14 +156,14 @@ export const App = () => {
   };
 
   useEffect(() => {
-    if (!((transferData.to).endsWith("@gmail.com")) && transferData.to.length > 0) {
-      setTransferData({...transferData, to: transferData.to + "@gmail.com"})
+    if (!transferData.to.endsWith("@gmail.com") && transferData.to.length > 0) {
+      setTransferData({ ...transferData, to: transferData.to + "@gmail.com" });
     }
-  }, [transferData.to])
+  }, [transferData.to]);
 
   return (
     <>
-      <Box p={3} textAlign="center" fontSize="xl">
+      <Box textAlign="center" fontSize="xl">
         {loaderData?.email ? (
           <VStack
             spacing={8}
@@ -186,10 +172,10 @@ export const App = () => {
             justifyContent="center"
           >
             <VStack
-              gap={6}
+              gap={9}
               px={10}
               pt={16}
-              pb={8}
+              pb={16}
               minW="10%"
               alignItems="flex-start"
               borderRadius={15}
@@ -198,14 +184,14 @@ export const App = () => {
             >
               <Heading size="lg">Send Funds</Heading>
               <VStack w="100%" alignItems="start" gap={4}>
-                <FormControl w="250px">
+                <FormControl w="300px">
                   <FormLabel>Email</FormLabel>
-                  <InputGroup size="sm">
+                  <InputGroup size="md">
                     <Input
                       maxW="250px"
                       type="email"
                       variant="outline"
-                      placeholder="Type receiver email"
+                      placeholder="Receiver email"
                       onChange={(e) => {
                         setTransferData({
                           ...transferData,
@@ -213,14 +199,10 @@ export const App = () => {
                         });
                       }}
                     />
-                    <InputRightAddon
-                      fontSize="xs"
-                      children="@gmail.com"
-                      bg="#212121"
-                    />
+                    <InputRightAddon children="@gmail.com" bg="#212121" />
                   </InputGroup>
                 </FormControl>
-                <FormControl w="250px">
+                <FormControl w="300px">
                   <FormLabel>Amount</FormLabel>
                   <InputGroup variant="unstyled">
                     <InputLeftAddon bg="#050505" p={0}>
@@ -241,9 +223,14 @@ export const App = () => {
                         ))}
                       </Select> */}
                       <Menu>
-                        <MenuButton as={Button} variant={'ghost'} alignItems={'center'} justifyContent={'center'}>
+                        <MenuButton
+                          as={Button}
+                          variant={"ghost"}
+                          alignItems={"center"}
+                          justifyContent={"center"}
+                        >
                           <Avatar
-                            size={'xs'}
+                            size={"xs"}
                             src={tokenChoice.image_url}
                             mr={2}
                           />
@@ -253,7 +240,7 @@ export const App = () => {
                           {tokens.tokens.map((token: any, index: number) => (
                             <MenuItem
                               bg="#050505"
-                              _hover={{bg:"gray.800"}}
+                              _hover={{ bg: "gray.800" }}
                               key={index}
                               onClick={() => {
                                 setTokenChoice(token);

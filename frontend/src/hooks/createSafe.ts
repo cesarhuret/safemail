@@ -6,7 +6,7 @@ export const createSafe = async ({ owner, salt, wallet }: any) => {
 
   const chain = JSON.parse(localStorage.getItem('chain') || '{}');
 
-  if(chain.gnosisName !== 'celo') {
+  if(chain.litName !== 'celo') {
     const request: SponsoredCallRequest = {
       chainId: chain.id,
       target: "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2",

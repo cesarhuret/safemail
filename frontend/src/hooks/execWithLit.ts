@@ -2,6 +2,9 @@ import { utils } from "ethers";
 import { execWithLitABI } from "../abi/execWithLit";
 import config from "../config.json";
 import { GelatoRelay, SponsoredCallRequest } from "@gelatonetwork/relay-sdk";
+import { PKPEthersWallet } from "@lit-protocol/pkp-ethers";
+import { getUserPKPs } from "./getUserPKPs";
+import { ProviderType } from "@lit-protocol/constants";
 
 export const execWithLit = async (
   module: string,
@@ -24,9 +27,9 @@ export const execWithLit = async (
     chainId: 5,
   });
 
-  const chain = JSON.parse(localStorage.getItem('chain') || '{}');
+  const chain = JSON.parse(localStorage.getItem("chain") || "{}");
 
-  console.log(chain)
+  console.log(chain);
 
   const relay = new GelatoRelay();
 
@@ -35,7 +38,7 @@ export const execWithLit = async (
     // code: litActionCode,
     authSig,
     jsParams: {
-      chain: chain.gnosisName,
+      chain: chain.litName,
       publicKey: config.signMessage.pkp,
       access_token: authMethod.accessToken,
       safeAddress: txData.from,
@@ -81,12 +84,83 @@ export const execWithLit = async (
   ]);
 
   console.log(encodedData);
-  
-  const request: SponsoredCallRequest = {
-    chainId: chain.id,
-    target: chain.module,
-    data: encodedData,
-  };
 
-  return await relay.sponsoredCall(request, chain.gelato);
+  if (chain.litName !== "celo") {
+    const request: SponsoredCallRequest = {
+      chainId: chain.id,
+      target: chain.module,
+      data: encodedData,
+    };
+
+    const testTx = await relay.sponsoredCall(request, chain.gelato);
+
+    let interval = setInterval(async () => {
+      const res = await fetch(
+        "https://api.gelato.digital/tasks/status/" + testTx.taskId
+      );
+      const result = await res.json();
+
+      console.log(result);
+
+      if (
+        result.task?.transactionHash &&
+        result.task?.taskState == "ExecSuccess"
+      ) {
+        const txHash = result.task?.transactionHash;
+        return { txHash, success: true };
+        clearInterval(interval);
+      } else if (result.task?.taskState == "Cancelled") {
+        clearInterval(interval);
+        return { success: false, error: "Cancelled" };
+      }
+    }, 2000);
+
+  } else {
+
+    const client = new LitAuthClient({
+      litRelayConfig: {
+        relayApiKey: config.lit.apiKey,
+      },
+    });
+
+    client.initProvider(ProviderType.Google, {
+      redirectUri: window.location.origin + window.location.pathname,
+    });
+
+    const litNodeClient = new LitNodeClient({
+      litNetwork: "serrano",
+      debug: false,
+    });
+  
+    await litNodeClient.connect();
+  
+    const authMethod = JSON.parse(localStorage.getItem("authMethod") || "{}");
+  
+    const { authSig } = await litNodeClient.signSessionKey({
+      authMethods: [authMethod],
+      expiration: new Date(Date.now() + 1000 * 60 * 60 * 24).toISOString(),
+      resources: [],
+      chainId: 5,
+    });
+
+    const litProvider = client.getProvider(ProviderType.Google);
+
+    let pkp = await getUserPKPs(litProvider, authMethod);
+
+    const wallet: any = new PKPEthersWallet({
+      controllerAuthSig: authSig,
+      pkpPubKey: pkp.publicKey,
+      rpc: chain.rpc_endpoint,
+    });
+    await wallet.init();
+
+    console.log(wallet);
+
+    const res = await wallet.sendTransaction({
+      to: chain.module,
+      data: encodedData
+    })
+
+    return {success: true, txHash: (await res.wait(1)).transactionHash};
+  }
 };

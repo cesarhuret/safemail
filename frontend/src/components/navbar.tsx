@@ -66,7 +66,8 @@ export function NavBar() {
     });
 
     client.initProvider(ProviderType.Google, {
-      redirectUri: "http://localhost:3000",
+      redirectUri: "https://safemail-beta.vercel.app",
+      // redirectUri: "http://localhost:3000",
     });
 
     const litNodeClient = new LitNodeClient({

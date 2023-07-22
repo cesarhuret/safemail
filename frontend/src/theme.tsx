@@ -14,6 +14,15 @@ const theme = extendTheme({
       body: {
         backgroundColor: "#050505",
       },
+      "::-webkit-scrollbar": {
+        width: "5px",
+      },
+      "::-webkit-scrollbar-track": {
+        background: "transparent",
+      },
+      "::-webkit-scrollbar-thumb": {
+        background: "#444",
+      },
     }),
   },
   fonts: {

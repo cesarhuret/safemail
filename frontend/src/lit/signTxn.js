@@ -14616,7 +14616,7 @@ var go = async () => {
     const fromAddress = pkp.pkpEthAddress;
     const latestNonce = await Lit.Actions.getLatestNonce({
       address: fromAddress,
-      chain: "goerli"
+      chain
     });
     let txParams;
     if (toAddress == "0xa6B71E26C5e0845f74c812102Ca7114b6a896AB2") {

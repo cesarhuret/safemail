@@ -139,9 +139,16 @@ export const App = () => {
         setModalIsLoading(false);
         onClose();
         successToast(
-          "Transaction Submitted",
+          "Transaction Confirmed",
           `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`,
           txHash
+        );
+      } else if(result.task?.taskState == "Cancelled") {
+        clearInterval(interval);
+        onClose();
+        errorToast(
+          "Transaction Failed",
+          `Transaction was cancelled.`
         );
       }
     }, 2000);

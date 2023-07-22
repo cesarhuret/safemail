@@ -14,6 +14,7 @@ export const getSignedTransaction = async ({litNodeClient, provider, authSig, da
           pkpEthAddress: config.signTxn.address,
           pkpPublicKey: config.signTxn.pkp
         },
+        chain: "goerli",
         gasPrice: utils.parseUnits("50", "gwei").toHexString(),
         toAddress,
         safeSignature,

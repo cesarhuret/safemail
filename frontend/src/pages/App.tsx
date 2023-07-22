@@ -36,12 +36,12 @@ import {
   Stack,
   Image,
   Tooltip,
-  IconButton,
   Menu,
   MenuButton,
   MenuList,
   MenuItem,
   MenuDivider,
+  IconButton,
 } from "@chakra-ui/react";
 import { ColorModeSwitcher } from "../ColorModeSwitcher";
 import { Logo } from "../Logo";
@@ -135,6 +135,18 @@ export const App = () => {
   };
 
   console.log(loaderData);
+  useEffect(() => {
+    // setEmail("leonardo.ryuta05@gmail.com");
+    console.log(loaderData);
+  }, [loaderData]);
+
+  const searchAccount = () => {
+    if (search.endsWith("@gmail.com")) {
+      navigate("/" + search);
+    } else {
+      navigate("/" + search + "@gmail.com");
+    }
+  };
 
   return (
     <>
@@ -155,6 +167,7 @@ export const App = () => {
               alignItems="flex-start"
               borderRadius={15}
               bg="#050505"
+              boxShadow="16px 16px 35px #18fc8455, -16px -16px 35px #36efc055"
             >
               <Heading size="lg">Send Funds</Heading>
               <VStack w="100%" alignItems="start" gap={4}>
@@ -214,7 +227,16 @@ export const App = () => {
                     </NumberInput>
                   </InputGroup>
                 </FormControl>
-                <Button onClick={onOpen}>Send</Button>
+                <Button 
+                  w="full"
+                  mt={5}
+                  borderWidth={1}
+                  bg={
+                    `linear-gradient(#050505, #050505) padding-box, 
+                    linear-gradient(135deg, #000000, #36efc055) border-box`
+                  }
+                  onClick={onOpen}
+                >Send</Button>
               </VStack>
             </VStack>
           </VStack>
@@ -225,19 +247,26 @@ export const App = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <HStack spacing={"5"}>
-              {/* <Image src={"logo.png"} w={"50px"} borderRadius={7} /> */}
-              <Text fontWeight={"bold"}>Welcome To SafeMail</Text>
+            <HStack spacing={5}>
+              <Image src="/logo.png" w="50px" borderRadius={7} />
+              <Text as="b">Welcome to SafeMail</Text>
             </HStack>
             <HStack>
               <Input
-                placeholder={"Search for a Google Account..."}
-                onChange={(e: any) => setSearch(e.target.value)}
+                placeholder="Search for a Google Account..."
+                onChange={(e: any) => {
+                  setSearch(e.target.value);
+                }}
+                onKeyDown={(e: any) => {
+                  if (e.key === "Enter") {
+                    searchAccount();
+                  }
+                }}
               />
               <IconButton
                 aria-label="search"
-                icon={<BsArrowRight />}
-                onClick={() => navigate("/" + search)}
+                icon={<ArrowRightIcon size={20} />}
+                onClick={searchAccount}
               />
             </HStack>
           </VStack>

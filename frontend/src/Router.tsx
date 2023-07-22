@@ -79,11 +79,13 @@ const router = createBrowserRouter([
 
             const safe = await getSafeAddress(google.email);
 
+            console.log(safe)
+
             const code = await provider.getCode(safe);
+            console.log(code)
             if (code == "0x") {
                 const createSafeTx = await createSafe({
                   owner: config.signTxn.address,
-                  wallet: "",
                   salt: utils.id(google.email),
                 });
 
@@ -126,15 +128,21 @@ const router = createBrowserRouter([
                 });
 
                 console.log(await enableModuleTx.result.wait(1));
+                localStorage.setItem("authMethod", JSON.stringify(authMethod));
+                localStorage.setItem("google", JSON.stringify(google));
+                return {
+                  safe,
+                  email: google.email,
+                };
+            } else {
+              localStorage.setItem("authMethod", JSON.stringify(authMethod));
+              localStorage.setItem("google", JSON.stringify(google));
+  
+              return {
+                safe,
+                email: google.email,
+              };
             }
-
-            localStorage.setItem("authMethod", JSON.stringify(authMethod));
-            localStorage.setItem("google", JSON.stringify(google));
-
-            return {
-              safe: await getSafeAddress(google.email),
-              email: google.email,
-            };
           }
         } else if (localAuthMethod && localGoogle) {
           const google = await fetch(
@@ -158,6 +166,7 @@ const router = createBrowserRouter([
 
         return null;
       } catch (e) {
+        console.log(e)
         return null;
       }
     },

@@ -32,10 +32,6 @@ import {
 init(config.airStack.apiKey);
 
 export const Dashboard = () => {
-  const mockData = {
-    email: "leonardo.ryuta05@gmail.com",
-    address: "0x2346ac3Bc15656D4dE1da99384B5498A75f128a2",
-  };
   const [email, setEmail] = useState<string>(useParams().email || "");
   const [balance, setBalance] = useState<string>("0");
   const [walletAddress, setWalletAddress] = useState<string>("");
@@ -100,7 +96,7 @@ export const Dashboard = () => {
   }`;
 
   const variables = {
-    address: mockData.address,
+    address: walletAddress,
   };
 
   const { data, loading, error } = useQuery(query, variables, { cache: false });
@@ -168,7 +164,7 @@ export const Dashboard = () => {
             name={email}
             src={`https://noun-api.com/beta/pfp?name=${email}`}
           />
-          <Container bg="#050505" borderRadius={15} p={4}>
+          <Container bg="#050505" borderRadius={15} p={4} boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455">
             <VStack gap={4}>
               <Flex alignItems="center" gap={2}>
                 <MailIcon size={20} />
@@ -190,12 +186,12 @@ export const Dashboard = () => {
               </VStack>
             </VStack>
           </Container>
-          <Container bg="#050505" p={4} borderRadius={15}>
+          <Container bg="#050505" p={4} borderRadius={15} boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455">
             <Tabs>
               <TabList>
-                <Tab w="50%">Tokens</Tab>
-                <Tab w="50%">NFTs</Tab>
-                <Tab w="50%">Transactions</Tab>
+                <Tab w="50%" color="#95ff91cc">Tokens</Tab>
+                <Tab w="50%" color="#95ff91cc">NFTs</Tab>
+                <Tab w="50%" color="#95ff91cc">Transactions</Tab>
               </TabList>
               <TabPanels>
                 <TabPanel>

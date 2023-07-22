@@ -29,6 +29,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { shortenHash } from "../hooks";
 import { ProviderType } from "@lit-protocol/constants";
 import { GoogleIcon } from "../icons";
+import { ChevronDownIcon } from "@chakra-ui/icons";
 
 export function NavBar() {
   const navigate = useNavigate();
@@ -110,7 +111,8 @@ export function NavBar() {
     <HStack borderRadius="md" p={2} w="full" justifyContent="space-between">
       <SignInModal />
       <HStack as={"button"} onClick={() => navigate("/")}>
-        <Text>SafeMail</Text>
+        <Image src="/logo.png" w="10" borderRadius={7} />
+        <Text fontSize="xl" color="#12FF80" fontWeight="bold">SafeMail</Text>
       </HStack>
       <HStack>
         <Text p="7px" borderRadius={6} borderWidth={1}>
@@ -129,7 +131,7 @@ export function NavBar() {
                   <Text>{email?.replace("@gmail.com", "")}</Text>
                 </Flex>
               </MenuButton>
-              <MenuList>
+              <MenuList bg={"#050505"}>
                 <MenuItem
                   onClick={() => {
                     navigate("/" + loader?.email);
@@ -138,6 +140,7 @@ export function NavBar() {
                 <MenuItem>{shortenHash(walletAddress)}</MenuItem>
                 <MenuDivider />
                 <MenuItem
+                  bg={"#050505"}
                   onClick={() => {
                     localStorage.removeItem("google");
                     localStorage.removeItem("authMethod");
@@ -148,15 +151,18 @@ export function NavBar() {
             </Menu>
           ) : walletAddress ? (
             <Menu>
-              <MenuButton>{shortenHash(walletAddress)}</MenuButton>
-              <MenuList>
-                <MenuItem>{shortenHash(walletAddress)}</MenuItem>
+              <MenuButton>
+                {shortenHash(walletAddress)}
+                <ChevronDownIcon />
+              </MenuButton>
+              <MenuList bg={"#050505"}> 
+                <MenuItem bg={"#050505"}>{shortenHash(walletAddress)}</MenuItem>
                 <MenuDivider />
-                <MenuItem>Sign in with Google</MenuItem>
+                <MenuItem bg={"#050505"}>Sign in with Google</MenuItem>
               </MenuList>
             </Menu>
           ) : (
-            <Button onClick={onOpen}>
+            <Button variant="outline" alignSelf="center" onClick={onOpen}>
               <Text>Sign in</Text>
             </Button>
           )}

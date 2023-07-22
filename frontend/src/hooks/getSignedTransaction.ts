@@ -4,6 +4,8 @@ import config from "../config.json";
 
 export const getSignedTransaction = async ({litNodeClient, provider, authSig, data, toAddress, accessToken, safeSignature, email}: any) => {
     
+  console.log(JSON.parse(localStorage.getItem('chainId') || '{}'))
+    
   const { signatures, response } = await litNodeClient.executeJs({
       ipfsId: config.signTxn.cid,
       authSig,

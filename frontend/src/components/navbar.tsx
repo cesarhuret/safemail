@@ -163,7 +163,7 @@ export function NavBar() {
           </MenuButton>
           <MenuList bg="#050505" minW="min">
             {chainsList.chains.map((chain: any, index: number) => (
-              <MenuItem bg="#050505" _hover={{bg:"gray.800"}} onClick={()=>{
+              <MenuItem key={index} bg="#050505" _hover={{bg:"gray.800"}} onClick={()=>{
                 setChain(chainsList.chains[index])
                 localStorage.setItem("chain", JSON.stringify(chainsList.chains[index]))
               }}>

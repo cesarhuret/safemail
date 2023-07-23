@@ -41,14 +41,23 @@ export const Dashboard = () => {
   const [isCopied, setIsCopied] = useState<boolean>(false);
   const [internalTransactions, setInternalTransactions]: any = useState(null);
   const [chain, setChain] = useState<any>(JSON.parse(localStorage.getItem("chain") as string) || chainsList.chains[0]);
+  const [queryChain, setQueryChain] = useState<string>("polygon");
   const provider = new ethers.providers.JsonRpcProvider(
     chain.rpc_endpoint
   );
 
+  useEffect(() => {
+    if (chain.name === "Polygon") {
+      setQueryChain("polygon");
+    } else if (chain.name === "Goerli") {
+      setQueryChain("goerli");
+    }
+  }, [chain]);
+
   const query = `
   query tokens($address: Identity!) {
     erc20: TokenBalances(
-      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC20]}}, limit: 10, blockchain: ethereum}
+      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC20]}}, limit: 10, blockchain: ${queryChain}}
     ) {
       data:TokenBalance {
         amount
@@ -65,7 +74,7 @@ export const Dashboard = () => {
       }
     }
     erc721: TokenBalances(
-      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC721]}, tokenAddress: {_nin: ["0x22C1f6050E56d2876009903609a2cC3fEf83B415"]}}, limit: 10, blockchain: ethereum}
+      input: {filter: {owner: {_in: [$address]}, tokenType: {_in: [ERC721]}, tokenAddress: {_nin: ["0x22C1f6050E56d2876009903609a2cC3fEf83B415"]}}, limit: 10, blockchain: ${queryChain}}
     ) {
       data:TokenBalance {
         amount

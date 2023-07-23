@@ -94,27 +94,7 @@ export const execWithLit = async (
 
     const testTx = await relay.sponsoredCall(request, chain.gelato);
 
-    let interval = setInterval(async () => {
-      const res = await fetch(
-        "https://api.gelato.digital/tasks/status/" + testTx.taskId
-      );
-      const result = await res.json();
-
-      console.log(result);
-
-      if (
-        result.task?.transactionHash &&
-        result.task?.taskState == "ExecSuccess"
-      ) {
-        const txHash = result.task?.transactionHash;
-        return { txHash, success: true };
-        clearInterval(interval);
-      } else if (result.task?.taskState == "Cancelled") {
-        clearInterval(interval);
-        return { success: false, error: "Cancelled" };
-      }
-    }, 2000);
-
+    return {testTx, celo: true};
   } else {
 
     const client = new LitAuthClient({
@@ -161,6 +141,6 @@ export const execWithLit = async (
       data: encodedData
     })
 
-    return {success: true, txHash: (await res.wait(1)).transactionHash};
+    return {celo: false, txHash: (await res.wait(1)).transactionHash};
   }
 };

@@ -83,7 +83,7 @@ export const App = () => {
 
   const chain = JSON.parse(localStorage.getItem("chain") || "{}");
 
-  const successToast = (title: string, desc: string, hash: string) => {
+  const successToast = (title: string, desc: string) => {
     toast({
       title,
       description: desc,
@@ -120,30 +120,48 @@ export const App = () => {
     console.log(encodedData);
     console.log(tokenChoice);
 
-    const result: any = await execWithLit(
-      chain.module,
-      config.factory,
-      {
-        from: loaderData?.safe,
-        to: tokenChoice[chain.gnosisName], // erc20 contract address goes here
-        value: "0",
-        data: encodedData,
-      }
-    );
+    let result: any = await execWithLit(chain.module, config.factory, {
+      from: loaderData?.safe,
+      to: tokenChoice[chain.gnosisName], // erc20 contract address goes here
+      value: "0",
+      data: encodedData,
+    });
 
     console.log(result);
 
-    if(result.success) {
-      setModalIsLoading(false);
-      onClose();
+    if (result.celo) {
+      let interval = setInterval(async () => {
+        const res = await fetch(
+          "https://api.gelato.digital/tasks/status/" + result.testTx.taskId
+        );
+        const json = await res.json();
+
+        console.log(json);
+
+        if (
+          json.task?.transactionHash &&
+          json.task?.taskState == "ExecSuccess"
+        ) {
+          const txHash = json.task?.transactionHash;
+          clearInterval(interval);
+          setModalIsLoading(false);
+          onClose();
+          successToast(
+            "Transaction Confirmed",
+            `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`
+          );
+        } else if (json.task?.taskState == "Cancelled") {
+          setModalIsLoading(false);
+          clearInterval(interval);
+          onClose();
+          errorToast("Transaction Failed", `Transaction was cancelled.`);
+        }
+      }, 2000);
+    } else {
       successToast(
         "Transaction Confirmed",
-        `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`,
-        result.txHash
+        `${transferData.amount} ${tokenChoice.symbol} sent to ${transferData.to}`
       );
-    } else {
-      onClose();
-      errorToast("Transaction Failed", `Transaction was cancelled.`);
     }
   };
 

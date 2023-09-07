@@ -17,6 +17,7 @@ import {
   Skeleton,
   Avatar,
   Link,
+  useColorMode,
 } from "@chakra-ui/react";
 import { ethers, providers } from "ethers";
 import { init, useQuery } from "@airstack/airstack-react";
@@ -45,6 +46,7 @@ export const Dashboard = () => {
   const provider = new ethers.providers.JsonRpcProvider(
     chain.rpc_endpoint
   );
+  const {colorMode} = useColorMode();
 
   useEffect(() => {
     if (chain.name === "Polygon") {
@@ -179,7 +181,7 @@ export const Dashboard = () => {
             src={`https://noun-api.com/beta/pfp?name=${email}`}
           />
           <Container
-            bg="#050505"
+            bgColor={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
             borderRadius={15}
             p={4}
             boxShadow="-10px -10px 10px 0px #fe980055, 10px 10px 10px 0px #af2e0455"
@@ -206,20 +208,20 @@ export const Dashboard = () => {
             </VStack>
           </Container>
           <Container
-            bg="#050505"
+            bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
             p={4}
             borderRadius={15}
             boxShadow="-10px -10px 10px 0px #fe980055, 10px 10px 10px 0px #af2e0455"
           >
             <Tabs>
               <TabList>
-                <Tab w="50%" color="white">
+                <Tab w="50%" color={colorMode == 'light' ? "#050505" : '#f5f5f5'}>
                   Tokens
                 </Tab>
-                <Tab w="50%" color="white">
+                <Tab w="50%" color={colorMode == 'light' ? "#050505" : '#f5f5f5'}>
                   NFTs
                 </Tab>
-                <Tab w="50%" color="white">
+                <Tab w="50%" color={colorMode == 'light' ? "#050505" : '#f5f5f5'}>
                   Transactions
                 </Tab>
               </TabList>

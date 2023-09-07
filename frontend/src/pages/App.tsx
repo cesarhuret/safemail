@@ -41,6 +41,7 @@ import {
   IconButton,
   Avatar,
   InputRightAddon,
+  useColorMode,
 } from "@chakra-ui/react";
 import { Logo } from "../Logo";
 import { useEffect, useState } from "react";
@@ -69,6 +70,8 @@ export const App = () => {
   };
 
   const navigate = useNavigate();
+
+  const {colorMode} = useColorMode();
 
   const [transferData, setTransferData] = useState<TransferData>({
     to: "",
@@ -196,7 +199,7 @@ export const App = () => {
               minW="10%"
               alignItems="flex-start"
               borderRadius={15}
-              bg="#050505"
+              bg={colorMode == 'dark' ? '#050505' : '#f5f5f5'}
               boxShadow="16px 16px 35px #fe980055, -16px -16px 35px #af2e0455"
             >
               <Heading size="lg">Send Funds</Heading>
@@ -216,13 +219,13 @@ export const App = () => {
                         });
                       }}
                     />
-                    <InputRightAddon children="@gmail.com" bg="#212121" />
+                    <InputRightAddon children="@gmail.com" bg={colorMode == 'dark' ? "#212121" : '#d9d9d9'} />
                   </InputGroup>
                 </FormControl>
                 <FormControl w="300px">
                   <FormLabel>Amount</FormLabel>
                   <InputGroup variant="unstyled">
-                    <InputLeftAddon bg="#050505" p={0}>
+                    <InputLeftAddon bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'} p={0}>
                       {/* <Select
                         placeholder=""
                         border=""
@@ -253,11 +256,11 @@ export const App = () => {
                           />
                           {tokenChoice.symbol}
                         </MenuButton>
-                        <MenuList minW="min" bg="#050505">
+                        <MenuList minW="min" bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>
                           {tokens.tokens.map((token: any, index: number) => (
                             <MenuItem
-                              bg="#050505"
-                              _hover={{ bg: "gray.800" }}
+                              bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
+                              _hover={{ bg: colorMode == 'dark' ? "gray.800" : 'gray.300' }}
                               key={index}
                               onClick={() => {
                                 setTokenChoice(token);
@@ -293,6 +296,7 @@ export const App = () => {
                 <Button
                   w="full"
                   mt={5}
+                  variant={'outline'}
                   borderWidth={1}
                   onClick={onOpen}
                   disabled={!transferData.to.endsWith("@gmail.com")}

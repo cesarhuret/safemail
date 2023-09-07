@@ -7,7 +7,7 @@ const activeLabelStyles = {
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'dark',
+    initialColorMode: 'light',
     useSystemColorMode: false,
   },
   colors: { 
@@ -15,16 +15,15 @@ const theme = extendTheme({
     secondaryFontColor: "white"
   },
   semanticTokens: {
-    colors: {
-      'chakra-body-text': { _light: 'white' },
-      'chakra-placeholder-color': { _light: 'white'},
-    },
+    colors:  ({colorMode} : {colorMode: string}) => ({
+      'chakra-body-text': { _light: colorMode == 'dark' ? "#fff" : '#000' },
+      'chakra-placeholder-color': { _light: colorMode == 'dark' ? "#fff" : '#000' },
+    }),
   },
   style: {
-    global: (props: any) => ({
+    global: ({colorMode}: any) => ({
       body: {
-        backgroundColor: "#050505",
-        color: '#fff'
+        backgroundColor: colorMode == 'dark' ? "#000" : '#f5f5f5',
       },
       "::-webkit-scrollbar": {
         width: "5px",
@@ -43,8 +42,8 @@ const theme = extendTheme({
   },
   components: {
     Text: {
-      baseStyle: (props: any) => ({
-        color: '#fff',
+      baseStyle: ({colorMode}: any) => ({
+        color: colorMode == 'dark' ? "#fff" : '#000',
       }),
     },
     Form: {

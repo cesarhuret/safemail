@@ -22,9 +22,8 @@ const FullSpinner = () => (
 root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
-      <DarkMode>
+      <ColorModeScript initialColorMode={theme.config.initialColorMode} />
       <RouterProvider router={router} fallbackElement={<FullSpinner/>}/>
-      </DarkMode>
     </ChakraProvider>
   </React.StrictMode>,
 )

@@ -23,6 +23,7 @@ import {
   Input,
   IconButton,
   Avatar,
+  useColorMode,
 } from "@chakra-ui/react";
 import { useEffect, useState } from "react";
 import { providers, utils } from "ethers";
@@ -30,7 +31,7 @@ import { useLoaderData, useNavigate } from "react-router-dom";
 import { shortenHash } from "../hooks";
 import { ProviderType } from "@lit-protocol/constants";
 import { GoogleIcon, ArrowRightIcon } from "../icons";
-import { ChevronDownIcon } from "@chakra-ui/icons";
+import { ChevronDownIcon, MoonIcon, SunIcon } from "@chakra-ui/icons";
 import chainsList from "../utils/chains.json";
 
 export function NavBar() {
@@ -53,6 +54,8 @@ export function NavBar() {
       setBalance(parseFloat(utils.formatEther(balance)).toFixed(2));
     });
   };
+
+  const { colorMode, toggleColorMode } = useColorMode()
 
   useEffect(() => {
     getBalance();
@@ -89,6 +92,7 @@ export function NavBar() {
       />
       <ModalContent
         border={'0'}
+        bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
       >
         <ModalBody bg={'transparent'} mx={0}>
             <Button
@@ -100,7 +104,7 @@ export function NavBar() {
               alignSelf="center"
               onClick={signIn}
               _hover={{
-                bg: '#050505'
+                bg: colorMode == 'dark' ? "#050505" : '#f5f5f5'
               }}
               leftIcon={<GoogleIcon size={20} />}
             >
@@ -165,9 +169,10 @@ export function NavBar() {
             {chain.name}
             <ChevronDownIcon />
           </MenuButton>
-          <MenuList bg="#050505" minW="min">
+          <MenuList bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'} minW="min">
             {chainsList.chains.map((chain: any, index: number) => (
-              <MenuItem key={index} bg="#050505" _hover={{bg:"gray.800"}} onClick={()=>{
+              <MenuItem key={index} bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'} _hover={{bg: colorMode == 'dark' ? "gray.800": 'gray.200'}}
+              onClick={()=>{
                 setChain(chainsList.chains[index])
                 localStorage.setItem("chain", JSON.stringify(chainsList.chains[index]))
               }}>
@@ -193,11 +198,11 @@ export function NavBar() {
                   </Text>
                 </Flex>
               </MenuButton>
-              <MenuList bg={"#050505"}>
+              <MenuList bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>
                 <MenuItem
                   _hover={{ bg: "gray.800" }}
                   _focus={{ bg: "" }}
-                  bg={"#050505"}
+                  bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                   onClick={() => {
                     navigate("/" + loader?.email);
                   }}
@@ -207,7 +212,7 @@ export function NavBar() {
                 <MenuItem
                   _hover={{ bg: "gray.800" }}
                   _focus={{ bg: "" }}
-                  bg={"#050505"}
+                  bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                 >
                   {shortenHash(walletAddress)}
                 </MenuItem>
@@ -215,7 +220,7 @@ export function NavBar() {
                 <MenuItem
                   _hover={{ bg: "gray.800" }}
                   _focus={{ bg: "" }}
-                  bg={"#050505"}
+                  bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                   onClick={() => {
                     localStorage.removeItem("google");
                     localStorage.removeItem("authMethod");
@@ -232,10 +237,10 @@ export function NavBar() {
                 {shortenHash(walletAddress)}
                 <ChevronDownIcon />
               </MenuButton>
-              <MenuList bg={"#050505"}>
-                <MenuItem bg={"#050505"}>{shortenHash(walletAddress)}</MenuItem>
+              <MenuList bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>
+                <MenuItem bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>{shortenHash(walletAddress)}</MenuItem>
                 <MenuDivider />
-                <MenuItem bg={"#050505"}>Sign in with Google</MenuItem>
+                <MenuItem bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>Sign in with Google</MenuItem>
               </MenuList>
             </Menu>
           ) : (
@@ -244,6 +249,11 @@ export function NavBar() {
             </Button>
           )}
         </Box>
+        <IconButton
+          aria-label="switcher"
+          icon={colorMode == 'dark' ? <SunIcon/> : <MoonIcon/>}
+          onClick={toggleColorMode}
+        />
       </HStack>
     </HStack>
   );

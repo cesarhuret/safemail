@@ -294,8 +294,6 @@ export const App = () => {
                   w="full"
                   mt={5}
                   borderWidth={1}
-                  bg={`linear-gradient(#050505, #050505) padding-box, 
-                    linear-gradient(135deg, #000000, #36efc055) border-box`}
                   onClick={onOpen}
                   disabled={!transferData.to.endsWith("@gmail.com")}
                 >

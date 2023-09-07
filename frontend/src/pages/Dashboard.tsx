@@ -182,7 +182,7 @@ export const Dashboard = () => {
             bg="#050505"
             borderRadius={15}
             p={4}
-            boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455"
+            boxShadow="-10px -10px 10px 0px #fe980055, 10px 10px 10px 0px #af2e0455"
           >
             <VStack gap={4}>
               <Flex alignItems="center" gap={2}>
@@ -209,17 +209,17 @@ export const Dashboard = () => {
             bg="#050505"
             p={4}
             borderRadius={15}
-            boxShadow="-10px -10px 10px 0px #36efc055, 10px 10px 10px 0px #18fc8455"
+            boxShadow="-10px -10px 10px 0px #fe980055, 10px 10px 10px 0px #af2e0455"
           >
             <Tabs>
               <TabList>
-                <Tab w="50%" color="#95ff91cc">
+                <Tab w="50%" color="white">
                   Tokens
                 </Tab>
-                <Tab w="50%" color="#95ff91cc">
+                <Tab w="50%" color="white">
                   NFTs
                 </Tab>
-                <Tab w="50%" color="#95ff91cc">
+                <Tab w="50%" color="white">
                   Transactions
                 </Tab>
               </TabList>
@@ -284,7 +284,6 @@ export const Dashboard = () => {
                               key={index}
                               p={2}
                               borderRadius="md"
-                              bg="black"
                               justifyContent="space-between"
                               alignItems="center"
                               w="100%"

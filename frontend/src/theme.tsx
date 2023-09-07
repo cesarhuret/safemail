@@ -1,4 +1,4 @@
-import { color, extendTheme } from "@chakra-ui/react";
+import { InputProps, PropsOf, TextProps, color, extendTheme } from "@chakra-ui/react";
 import "@fontsource/inter";
 
 const activeLabelStyles = {
@@ -7,12 +7,24 @@ const activeLabelStyles = {
 
 const theme = extendTheme({
   config: {
-    initialColorMode: 'dark'
+    initialColorMode: 'dark',
+    useSystemColorMode: false,
+  },
+  colors: { 
+    primaryFontColor: "white", 
+    secondaryFontColor: "white"
+  },
+  semanticTokens: {
+    colors: {
+      'chakra-body-text': { _light: 'white' },
+      'chakra-placeholder-color': { _light: 'white'},
+    },
   },
   style: {
     global: (props: any) => ({
       body: {
         backgroundColor: "#050505",
+        color: '#fff'
       },
       "::-webkit-scrollbar": {
         width: "5px",
@@ -30,6 +42,11 @@ const theme = extendTheme({
     body: `'Inter', sans-serif`,
   },
   components: {
+    Text: {
+      baseStyle: (props: any) => ({
+        color: '#fff',
+      }),
+    },
     Form: {
       variants: {
         floating: {
@@ -62,7 +79,7 @@ const theme = extendTheme({
     Modal: {
         baseStyle: {
             dialog: {
-                boxShadow: "-14px 14px 35px #18fc8455, 14px -14px 35px #36efc055",
+                boxShadow: "-14px 14px 35px #fe980055, 14px -14px 35px #af2e0455",
                 bg: "#050505",
                 borderWidth: "0.1rem",
                 borderRadius: 15

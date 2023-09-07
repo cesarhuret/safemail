@@ -1,4 +1,4 @@
-import { ColorModeScript, ChakraProvider, Flex, Spinner } from "@chakra-ui/react"
+import { ColorModeScript, ChakraProvider, Flex, Spinner, DarkMode } from "@chakra-ui/react"
 import * as React from "react"
 import * as ReactDOM from "react-dom/client"
 import { App } from "./pages/App"
@@ -22,7 +22,9 @@ const FullSpinner = () => (
 root.render(
   <React.StrictMode>
     <ChakraProvider theme={theme}>
+      <DarkMode>
       <RouterProvider router={router} fallbackElement={<FullSpinner/>}/>
+      </DarkMode>
     </ChakraProvider>
   </React.StrictMode>,
 )

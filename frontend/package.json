@@ -9,6 +9,7 @@
     "@emotion/react": "^11.11.1",
     "@emotion/styled": "^11.11.0",
     "@fontsource/inter": "^5.0.5",
+    "@fontsource/montserrat": "^5.0.8",
     "@gelatonetwork/relay-sdk": "3.2.1",
     "@lit-protocol/constants": "^2.2.45",
     "@lit-protocol/lit-auth-client": "^2.2.45",

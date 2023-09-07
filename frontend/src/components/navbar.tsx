@@ -66,8 +66,8 @@ export function NavBar() {
     });
 
     client.initProvider(ProviderType.Google, {
-      redirectUri: "https://safemail-beta.vercel.app",
-      // redirectUri: "http://localhost:3000",
+      // redirectUri: "https://useflame.xyz",
+      redirectUri: "http://localhost:3000",
     });
 
     const litNodeClient = new LitNodeClient({
@@ -82,22 +82,30 @@ export function NavBar() {
   };
 
   const SignInModal = () => (
-    <Modal isCentered={true} size="md" isOpen={isOpen} onClose={onClose}>
-      <ModalOverlay />
-      <ModalContent>
-        <ModalCloseButton />
-        <ModalBody mx={0} my={20}>
-          <VStack gap={5}>
+    <Modal isCentered={true} size="sm" isOpen={isOpen} onClose={onClose}>
+      <ModalOverlay 
+        bg='blackAlpha.300'
+        backdropFilter='blur(10px)'
+      />
+      <ModalContent
+        border={'0'}
+      >
+        <ModalBody bg={'transparent'} mx={0}>
             <Button
-              variant="outline"
-              w="200px"
+              p={0}
+              m={0}
+              w={'full'}
+              variant="ghost"
+              size={'lg'}
               alignSelf="center"
               onClick={signIn}
+              _hover={{
+                bg: '#050505'
+              }}
               leftIcon={<GoogleIcon size={20} />}
             >
               <Text>Sign in with Google</Text>
             </Button>
-          </VStack>
         </ModalBody>
       </ModalContent>
     </Modal>
@@ -117,8 +125,8 @@ export function NavBar() {
       <HStack>
         <HStack as={"button"} onClick={() => navigate("/")}>
           <Image src="/logo.png" w="10" borderRadius={7} />
-          <Text fontSize="xl" color="#12FF80" fontWeight="bold">
-            SafeMail
+          <Text fontSize="xl" color="#fe9800" fontWeight="bold">
+            Flame Wallet
           </Text>
         </HStack>
         {email !== "" && walletAddress ? (
@@ -231,7 +239,7 @@ export function NavBar() {
               </MenuList>
             </Menu>
           ) : (
-            <Button variant="outline" alignSelf="center" onClick={onOpen}>
+            <Button variant="solid" bg={'#fe9800'} alignSelf="center" onClick={onOpen}>
               <Text>Sign in</Text>
             </Button>
           )}

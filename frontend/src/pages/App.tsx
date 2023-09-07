@@ -52,8 +52,7 @@ import { Link, useNavigate, useRouteLoaderData } from "react-router-dom";
 import { utils } from "ethers";
 import ERC20ABI from "../utils/ERC20.json";
 import tokens from "../utils/tokens.json";
-import { BsArrowRight } from "react-icons/bs";
-import { PKPEthersWallet } from "@lit-protocol/pkp-ethers";
+import "@fontsource/montserrat/500.css";
 
 interface TransferData {
   to: string;
@@ -198,7 +197,7 @@ export const App = () => {
               alignItems="flex-start"
               borderRadius={15}
               bg="#050505"
-              boxShadow="16px 16px 35px #18fc8455, -16px -16px 35px #36efc055"
+              boxShadow="16px 16px 35px #fe980055, -16px -16px 35px #af2e0455"
             >
               <Heading size="lg">Send Funds</Heading>
               <VStack w="100%" alignItems="start" gap={4}>
@@ -312,10 +311,7 @@ export const App = () => {
             alignItems="center"
             justifyContent="center"
           >
-            <HStack spacing={5}>
-              <Image src="/logo.png" w="50px" borderRadius={7} />
-              <Text as="b">Welcome to SafeMail</Text>
-            </HStack>
+            <Text fontSize={'4xl'} fontFamily={'Montserrat'} fontWeight={'500'}>Send crypto to any gmail</Text>
             <HStack>
               <Input
                 placeholder="Search for a Google Account..."

@@ -337,7 +337,7 @@ export const App = () => {
       </Box>
 
       <Modal size="lg" isOpen={isOpen} isCentered={true} onClose={onClose}>
-        <ModalOverlay bg="blackAlpha.900" />
+        <ModalOverlay bg={colorMode == 'dark' ? "blackAlpha.800" : 'blackAlpha.200'} />
         <ModalContent mx={4} p={10}>
           <ModalCloseButton />
           <ModalHeader>Transaction Details</ModalHeader>

@@ -76,14 +76,14 @@ const theme = extendTheme({
       },
     },
     Modal: {
-        baseStyle: {
+        baseStyle: ({colorMode}: {colorMode: string}) => ({
             dialog: {
                 boxShadow: "-14px 14px 35px #fe980055, 14px -14px 35px #af2e0455",
-                bg: "#050505",
+                bg: colorMode == 'dark' ? "#050505" : '#f5f5f5',
                 borderWidth: "0.1rem",
                 borderRadius: 15
             }
-        }
+        })
     }
   },
 });

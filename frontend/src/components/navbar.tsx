@@ -200,7 +200,7 @@ export function NavBar() {
               </MenuButton>
               <MenuList bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}>
                 <MenuItem
-                  _hover={{ bg: "gray.800" }}
+                  _hover={{bg: colorMode == 'dark' ? "gray.800": 'gray.200'}}
                   _focus={{ bg: "" }}
                   bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                   onClick={() => {
@@ -210,7 +210,7 @@ export function NavBar() {
                   {email}
                 </MenuItem>
                 <MenuItem
-                  _hover={{ bg: "gray.800" }}
+                  _hover={{bg: colorMode == 'dark' ? "gray.800": 'gray.200'}}
                   _focus={{ bg: "" }}
                   bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                 >
@@ -218,7 +218,7 @@ export function NavBar() {
                 </MenuItem>
                 <MenuDivider />
                 <MenuItem
-                  _hover={{ bg: "gray.800" }}
+                  _hover={{bg: colorMode == 'dark' ? "gray.800": 'gray.200'}}
                   _focus={{ bg: "" }}
                   bg={colorMode == 'dark' ? "#050505" : '#f5f5f5'}
                   onClick={() => {

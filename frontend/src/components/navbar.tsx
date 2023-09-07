@@ -66,8 +66,8 @@ export function NavBar() {
     });
 
     client.initProvider(ProviderType.Google, {
-      // redirectUri: "https://useflame.xyz",
-      redirectUri: "http://localhost:3000",
+      redirectUri: "https://useflame.xyz",
+      // redirectUri: "http://localhost:3000",
     });
 
     const litNodeClient = new LitNodeClient({
